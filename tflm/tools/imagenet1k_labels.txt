@@ -1,0 +1,1013 @@
+# ImageNet-1k 類別名稱，索引 0..999（標準 1000 類排序，0 = tench）。
+#
+# 兩欄以 tab 分隔：
+#   第 1 欄  簡化名（imagenet-simple-labels）
+#   第 2 欄  WordNet 原始名（含同義詞，pytorch/hub）
+#
+# 來源交叉驗證：兩份各 1000 筆，索引 0/1/281/282/954/999 等錨點完全對上；
+# 139 筆字面不同全是命名風格差異（water ouzel = American dipper 之類），
+# 順序一致。
+#
+# ** 注意 **：EfficientNet 有 1000 類與 1001 類（多一個 background）兩種
+# 版本，索引會整體差 1。這份是 1000 類版。用之前先確認模型的輸出張量
+# 維度是 1000（model_info.py 會印），否則整個對照會錯一格。
+tench	tench
+goldfish	goldfish
+great white shark	great white shark
+tiger shark	tiger shark
+hammerhead shark	hammerhead
+electric ray	electric ray
+stingray	stingray
+cock	cock
+hen	hen
+ostrich	ostrich
+brambling	brambling
+goldfinch	goldfinch
+house finch	house finch
+junco	junco
+indigo bunting	indigo bunting
+American robin	robin
+bulbul	bulbul
+jay	jay
+magpie	magpie
+chickadee	chickadee
+American dipper	water ouzel
+kite	kite
+bald eagle	bald eagle
+vulture	vulture
+great grey owl	great grey owl
+fire salamander	European fire salamander
+smooth newt	common newt
+newt	eft
+spotted salamander	spotted salamander
+axolotl	axolotl
+American bullfrog	bullfrog
+tree frog	tree frog
+tailed frog	tailed frog
+loggerhead sea turtle	loggerhead
+leatherback sea turtle	leatherback turtle
+mud turtle	mud turtle
+terrapin	terrapin
+box turtle	box turtle
+banded gecko	banded gecko
+green iguana	common iguana
+Carolina anole	American chameleon
+desert grassland whiptail lizard	whiptail
+agama	agama
+frilled-necked lizard	frilled lizard
+alligator lizard	alligator lizard
+Gila monster	Gila monster
+European green lizard	green lizard
+chameleon	African chameleon
+Komodo dragon	Komodo dragon
+Nile crocodile	African crocodile
+American alligator	American alligator
+triceratops	triceratops
+worm snake	thunder snake
+ring-necked snake	ringneck snake
+eastern hog-nosed snake	hognose snake
+smooth green snake	green snake
+kingsnake	king snake
+garter snake	garter snake
+water snake	water snake
+vine snake	vine snake
+night snake	night snake
+boa constrictor	boa constrictor
+African rock python	rock python
+Indian cobra	Indian cobra
+green mamba	green mamba
+sea snake	sea snake
+Saharan horned viper	horned viper
+eastern diamondback rattlesnake	diamondback
+sidewinder	sidewinder
+trilobite	trilobite
+harvestman	harvestman
+scorpion	scorpion
+yellow garden spider	black and gold garden spider
+barn spider	barn spider
+European garden spider	garden spider
+southern black widow	black widow
+tarantula	tarantula
+wolf spider	wolf spider
+tick	tick
+centipede	centipede
+black grouse	black grouse
+ptarmigan	ptarmigan
+ruffed grouse	ruffed grouse
+prairie grouse	prairie chicken
+peacock	peacock
+quail	quail
+partridge	partridge
+grey parrot	African grey
+macaw	macaw
+sulphur-crested cockatoo	sulphur-crested cockatoo
+lorikeet	lorikeet
+coucal	coucal
+bee eater	bee eater
+hornbill	hornbill
+hummingbird	hummingbird
+jacamar	jacamar
+toucan	toucan
+duck	drake
+red-breasted merganser	red-breasted merganser
+goose	goose
+black swan	black swan
+tusker	tusker
+echidna	echidna
+platypus	platypus
+wallaby	wallaby
+koala	koala
+wombat	wombat
+jellyfish	jellyfish
+sea anemone	sea anemone
+brain coral	brain coral
+flatworm	flatworm
+nematode	nematode
+conch	conch
+snail	snail
+slug	slug
+sea slug	sea slug
+chiton	chiton
+chambered nautilus	chambered nautilus
+Dungeness crab	Dungeness crab
+rock crab	rock crab
+fiddler crab	fiddler crab
+red king crab	king crab
+American lobster	American lobster
+spiny lobster	spiny lobster
+crayfish	crayfish
+hermit crab	hermit crab
+isopod	isopod
+white stork	white stork
+black stork	black stork
+spoonbill	spoonbill
+flamingo	flamingo
+little blue heron	little blue heron
+great egret	American egret
+bittern	bittern
+crane (bird)	crane
+limpkin	limpkin
+common gallinule	European gallinule
+American coot	American coot
+bustard	bustard
+ruddy turnstone	ruddy turnstone
+dunlin	red-backed sandpiper
+common redshank	redshank
+dowitcher	dowitcher
+oystercatcher	oystercatcher
+pelican	pelican
+king penguin	king penguin
+albatross	albatross
+grey whale	grey whale
+killer whale	killer whale
+dugong	dugong
+sea lion	sea lion
+Chihuahua	Chihuahua
+Japanese Chin	Japanese spaniel
+Maltese	Maltese dog
+Pekingese	Pekinese
+Shih Tzu	Shih-Tzu
+King Charles Spaniel	Blenheim spaniel
+Papillon	papillon
+toy terrier	toy terrier
+Rhodesian Ridgeback	Rhodesian ridgeback
+Afghan Hound	Afghan hound
+Basset Hound	basset
+Beagle	beagle
+Bloodhound	bloodhound
+Bluetick Coonhound	bluetick
+Black and Tan Coonhound	black-and-tan coonhound
+Treeing Walker Coonhound	Walker hound
+English foxhound	English foxhound
+Redbone Coonhound	redbone
+borzoi	borzoi
+Irish Wolfhound	Irish wolfhound
+Italian Greyhound	Italian greyhound
+Whippet	whippet
+Ibizan Hound	Ibizan hound
+Norwegian Elkhound	Norwegian elkhound
+Otterhound	otterhound
+Saluki	Saluki
+Scottish Deerhound	Scottish deerhound
+Weimaraner	Weimaraner
+Staffordshire Bull Terrier	Staffordshire bullterrier
+American Staffordshire Terrier	American Staffordshire terrier
+Bedlington Terrier	Bedlington terrier
+Border Terrier	Border terrier
+Kerry Blue Terrier	Kerry blue terrier
+Irish Terrier	Irish terrier
+Norfolk Terrier	Norfolk terrier
+Norwich Terrier	Norwich terrier
+Yorkshire Terrier	Yorkshire terrier
+Wire Fox Terrier	wire-haired fox terrier
+Lakeland Terrier	Lakeland terrier
+Sealyham Terrier	Sealyham terrier
+Airedale Terrier	Airedale
+Cairn Terrier	cairn
+Australian Terrier	Australian terrier
+Dandie Dinmont Terrier	Dandie Dinmont
+Boston Terrier	Boston bull
+Miniature Schnauzer	miniature schnauzer
+Giant Schnauzer	giant schnauzer
+Standard Schnauzer	standard schnauzer
+Scottish Terrier	Scotch terrier
+Tibetan Terrier	Tibetan terrier
+Australian Silky Terrier	silky terrier
+Soft-coated Wheaten Terrier	soft-coated wheaten terrier
+West Highland White Terrier	West Highland white terrier
+Lhasa Apso	Lhasa
+Flat-Coated Retriever	flat-coated retriever
+Curly-coated Retriever	curly-coated retriever
+Golden Retriever	golden retriever
+Labrador Retriever	Labrador retriever
+Chesapeake Bay Retriever	Chesapeake Bay retriever
+German Shorthaired Pointer	German short-haired pointer
+Vizsla	vizsla
+English Setter	English setter
+Irish Setter	Irish setter
+Gordon Setter	Gordon setter
+Brittany Spaniel	Brittany spaniel
+Clumber Spaniel	clumber
+English Springer Spaniel	English springer
+Welsh Springer Spaniel	Welsh springer spaniel
+Cocker Spaniels	cocker spaniel
+Sussex Spaniel	Sussex spaniel
+Irish Water Spaniel	Irish water spaniel
+Kuvasz	kuvasz
+Schipperke	schipperke
+Groenendael	groenendael
+Malinois	malinois
+Briard	briard
+Australian Kelpie	kelpie
+Komondor	komondor
+Old English Sheepdog	Old English sheepdog
+Shetland Sheepdog	Shetland sheepdog
+collie	collie
+Border Collie	Border collie
+Bouvier des Flandres	Bouvier des Flandres
+Rottweiler	Rottweiler
+German Shepherd Dog	German shepherd
+Dobermann	Doberman
+Miniature Pinscher	miniature pinscher
+Greater Swiss Mountain Dog	Greater Swiss Mountain dog
+Bernese Mountain Dog	Bernese mountain dog
+Appenzeller Sennenhund	Appenzeller
+Entlebucher Sennenhund	EntleBucher
+Boxer	boxer
+Bullmastiff	bull mastiff
+Tibetan Mastiff	Tibetan mastiff
+French Bulldog	French bulldog
+Great Dane	Great Dane
+St. Bernard	Saint Bernard
+husky	Eskimo dog
+Alaskan Malamute	malamute
+Siberian Husky	Siberian husky
+Dalmatian	dalmatian
+Affenpinscher	affenpinscher
+Basenji	basenji
+pug	pug
+Leonberger	Leonberg
+Newfoundland	Newfoundland
+Pyrenean Mountain Dog	Great Pyrenees
+Samoyed	Samoyed
+Pomeranian	Pomeranian
+Chow Chow	chow
+Keeshond	keeshond
+Griffon Bruxellois	Brabancon griffon
+Pembroke Welsh Corgi	Pembroke
+Cardigan Welsh Corgi	Cardigan
+Toy Poodle	toy poodle
+Miniature Poodle	miniature poodle
+Standard Poodle	standard poodle
+Mexican hairless dog	Mexican hairless
+grey wolf	timber wolf
+Alaskan tundra wolf	white wolf
+red wolf	red wolf
+coyote	coyote
+dingo	dingo
+dhole	dhole
+African wild dog	African hunting dog
+hyena	hyena
+red fox	red fox
+kit fox	kit fox
+Arctic fox	Arctic fox
+grey fox	grey fox
+tabby cat	tabby
+tiger cat	tiger cat
+Persian cat	Persian cat
+Siamese cat	Siamese cat
+Egyptian Mau	Egyptian cat
+cougar	cougar
+lynx	lynx
+leopard	leopard
+snow leopard	snow leopard
+jaguar	jaguar
+lion	lion
+tiger	tiger
+cheetah	cheetah
+brown bear	brown bear
+American black bear	American black bear
+polar bear	ice bear
+sloth bear	sloth bear
+mongoose	mongoose
+meerkat	meerkat
+tiger beetle	tiger beetle
+ladybug	ladybug
+ground beetle	ground beetle
+longhorn beetle	long-horned beetle
+leaf beetle	leaf beetle
+dung beetle	dung beetle
+rhinoceros beetle	rhinoceros beetle
+weevil	weevil
+fly	fly
+bee	bee
+ant	ant
+grasshopper	grasshopper
+cricket	cricket
+stick insect	walking stick
+cockroach	cockroach
+mantis	mantis
+cicada	cicada
+leafhopper	leafhopper
+lacewing	lacewing
+dragonfly	dragonfly
+damselfly	damselfly
+red admiral	admiral
+ringlet	ringlet
+monarch butterfly	monarch
+small white	cabbage butterfly
+sulphur butterfly	sulphur butterfly
+gossamer-winged butterfly	lycaenid
+starfish	starfish
+sea urchin	sea urchin
+sea cucumber	sea cucumber
+cottontail rabbit	wood rabbit
+hare	hare
+Angora rabbit	Angora
+hamster	hamster
+porcupine	porcupine
+fox squirrel	fox squirrel
+marmot	marmot
+beaver	beaver
+guinea pig	guinea pig
+common sorrel	sorrel
+zebra	zebra
+pig	hog
+wild boar	wild boar
+warthog	warthog
+hippopotamus	hippopotamus
+ox	ox
+water buffalo	water buffalo
+bison	bison
+ram	ram
+bighorn sheep	bighorn
+Alpine ibex	ibex
+hartebeest	hartebeest
+impala	impala
+gazelle	gazelle
+dromedary	Arabian camel
+llama	llama
+weasel	weasel
+mink	mink
+European polecat	polecat
+black-footed ferret	black-footed ferret
+otter	otter
+skunk	skunk
+badger	badger
+armadillo	armadillo
+three-toed sloth	three-toed sloth
+orangutan	orangutan
+gorilla	gorilla
+chimpanzee	chimpanzee
+gibbon	gibbon
+siamang	siamang
+guenon	guenon
+patas monkey	patas
+baboon	baboon
+macaque	macaque
+langur	langur
+black-and-white colobus	colobus
+proboscis monkey	proboscis monkey
+marmoset	marmoset
+white-headed capuchin	capuchin
+howler monkey	howler monkey
+titi	titi
+Geoffroy's spider monkey	spider monkey
+common squirrel monkey	squirrel monkey
+ring-tailed lemur	Madagascar cat
+indri	indri
+Asian elephant	Indian elephant
+African bush elephant	African elephant
+red panda	lesser panda
+giant panda	giant panda
+snoek	barracouta
+eel	eel
+coho salmon	coho
+rock beauty	rock beauty
+clownfish	anemone fish
+sturgeon	sturgeon
+garfish	gar
+lionfish	lionfish
+pufferfish	puffer
+abacus	abacus
+abaya	abaya
+academic gown	academic gown
+accordion	accordion
+acoustic guitar	acoustic guitar
+aircraft carrier	aircraft carrier
+airliner	airliner
+airship	airship
+altar	altar
+ambulance	ambulance
+amphibious vehicle	amphibian
+analog clock	analog clock
+apiary	apiary
+apron	apron
+waste container	ashcan
+assault rifle	assault rifle
+backpack	backpack
+bakery	bakery
+balance beam	balance beam
+balloon	balloon
+ballpoint pen	ballpoint
+Band-Aid	Band Aid
+banjo	banjo
+baluster	bannister
+barbell	barbell
+barber chair	barber chair
+barbershop	barbershop
+barn	barn
+barometer	barometer
+barrel	barrel
+wheelbarrow	barrow
+baseball	baseball
+basketball	basketball
+bassinet	bassinet
+bassoon	bassoon
+swimming cap	bathing cap
+bath towel	bath towel
+bathtub	bathtub
+station wagon	beach wagon
+lighthouse	beacon
+beaker	beaker
+military cap	bearskin
+beer bottle	beer bottle
+beer glass	beer glass
+bell-cot	bell cote
+bib	bib
+tandem bicycle	bicycle-built-for-two
+bikini	bikini
+ring binder	binder
+binoculars	binoculars
+birdhouse	birdhouse
+boathouse	boathouse
+bobsleigh	bobsled
+bolo tie	bolo tie
+poke bonnet	bonnet
+bookcase	bookcase
+bookstore	bookshop
+bottle cap	bottlecap
+bow	bow
+bow tie	bow tie
+brass	brass
+bra	brassiere
+breakwater	breakwater
+breastplate	breastplate
+broom	broom
+bucket	bucket
+buckle	buckle
+bulletproof vest	bulletproof vest
+high-speed train	bullet train
+butcher shop	butcher shop
+taxicab	cab
+cauldron	caldron
+candle	candle
+cannon	cannon
+canoe	canoe
+can opener	can opener
+cardigan	cardigan
+car mirror	car mirror
+carousel	carousel
+tool kit	carpenter's kit
+carton	carton
+car wheel	car wheel
+automated teller machine	cash machine
+cassette	cassette
+cassette player	cassette player
+castle	castle
+catamaran	catamaran
+CD player	CD player
+cello	cello
+mobile phone	cellular telephone
+chain	chain
+chain-link fence	chainlink fence
+chain mail	chain mail
+chainsaw	chain saw
+chest	chest
+chiffonier	chiffonier
+chime	chime
+china cabinet	china cabinet
+Christmas stocking	Christmas stocking
+church	church
+movie theater	cinema
+cleaver	cleaver
+cliff dwelling	cliff dwelling
+cloak	cloak
+clogs	clog
+cocktail shaker	cocktail shaker
+coffee mug	coffee mug
+coffeemaker	coffeepot
+coil	coil
+combination lock	combination lock
+computer keyboard	computer keyboard
+confectionery store	confectionery
+container ship	container ship
+convertible	convertible
+corkscrew	corkscrew
+cornet	cornet
+cowboy boot	cowboy boot
+cowboy hat	cowboy hat
+cradle	cradle
+crane (machine)	crane
+crash helmet	crash helmet
+crate	crate
+infant bed	crib
+Crock Pot	Crock Pot
+croquet ball	croquet ball
+crutch	crutch
+cuirass	cuirass
+dam	dam
+desk	desk
+desktop computer	desktop computer
+rotary dial telephone	dial telephone
+diaper	diaper
+digital clock	digital clock
+digital watch	digital watch
+dining table	dining table
+dishcloth	dishrag
+dishwasher	dishwasher
+disc brake	disk brake
+dock	dock
+dog sled	dogsled
+dome	dome
+doormat	doormat
+drilling rig	drilling platform
+drum	drum
+drumstick	drumstick
+dumbbell	dumbbell
+Dutch oven	Dutch oven
+electric fan	electric fan
+electric guitar	electric guitar
+electric locomotive	electric locomotive
+entertainment center	entertainment center
+envelope	envelope
+espresso machine	espresso maker
+face powder	face powder
+feather boa	feather boa
+filing cabinet	file
+fireboat	fireboat
+fire engine	fire engine
+fire screen sheet	fire screen
+flagpole	flagpole
+flute	flute
+folding chair	folding chair
+football helmet	football helmet
+forklift	forklift
+fountain	fountain
+fountain pen	fountain pen
+four-poster bed	four-poster
+freight car	freight car
+French horn	French horn
+frying pan	frying pan
+fur coat	fur coat
+garbage truck	garbage truck
+gas mask	gasmask
+gas pump	gas pump
+goblet	goblet
+go-kart	go-kart
+golf ball	golf ball
+golf cart	golfcart
+gondola	gondola
+gong	gong
+gown	gown
+grand piano	grand piano
+greenhouse	greenhouse
+grille	grille
+grocery store	grocery store
+guillotine	guillotine
+barrette	hair slide
+hair spray	hair spray
+half-track	half track
+hammer	hammer
+hamper	hamper
+hair dryer	hand blower
+hand-held computer	hand-held computer
+handkerchief	handkerchief
+hard disk drive	hard disc
+harmonica	harmonica
+harp	harp
+harvester	harvester
+hatchet	hatchet
+holster	holster
+home theater	home theater
+honeycomb	honeycomb
+hook	hook
+hoop skirt	hoopskirt
+horizontal bar	horizontal bar
+horse-drawn vehicle	horse cart
+hourglass	hourglass
+iPod	iPod
+clothes iron	iron
+jack-o'-lantern	jack-o'-lantern
+jeans	jean
+jeep	jeep
+T-shirt	jersey
+jigsaw puzzle	jigsaw puzzle
+pulled rickshaw	jinrikisha
+joystick	joystick
+kimono	kimono
+knee pad	knee pad
+knot	knot
+lab coat	lab coat
+ladle	ladle
+lampshade	lampshade
+laptop computer	laptop
+lawn mower	lawn mower
+lens cap	lens cap
+paper knife	letter opener
+library	library
+lifeboat	lifeboat
+lighter	lighter
+limousine	limousine
+ocean liner	liner
+lipstick	lipstick
+slip-on shoe	Loafer
+lotion	lotion
+speaker	loudspeaker
+loupe	loupe
+sawmill	lumbermill
+magnetic compass	magnetic compass
+mail bag	mailbag
+mailbox	mailbox
+tights	maillot
+tank suit	maillot
+manhole cover	manhole cover
+maraca	maraca
+marimba	marimba
+mask	mask
+match	matchstick
+maypole	maypole
+maze	maze
+measuring cup	measuring cup
+medicine chest	medicine chest
+megalith	megalith
+microphone	microphone
+microwave oven	microwave
+military uniform	military uniform
+milk can	milk can
+minibus	minibus
+miniskirt	miniskirt
+minivan	minivan
+missile	missile
+mitten	mitten
+mixing bowl	mixing bowl
+mobile home	mobile home
+Model T	Model T
+modem	modem
+monastery	monastery
+monitor	monitor
+moped	moped
+mortar	mortar
+square academic cap	mortarboard
+mosque	mosque
+mosquito net	mosquito net
+scooter	motor scooter
+mountain bike	mountain bike
+tent	mountain tent
+computer mouse	mouse
+mousetrap	mousetrap
+moving van	moving van
+muzzle	muzzle
+nail	nail
+neck brace	neck brace
+necklace	necklace
+nipple	nipple
+notebook computer	notebook
+obelisk	obelisk
+oboe	oboe
+ocarina	ocarina
+odometer	odometer
+oil filter	oil filter
+organ	organ
+oscilloscope	oscilloscope
+overskirt	overskirt
+bullock cart	oxcart
+oxygen mask	oxygen mask
+packet	packet
+paddle	paddle
+paddle wheel	paddlewheel
+padlock	padlock
+paintbrush	paintbrush
+pajamas	pajama
+palace	palace
+pan flute	panpipe
+paper towel	paper towel
+parachute	parachute
+parallel bars	parallel bars
+park bench	park bench
+parking meter	parking meter
+passenger car	passenger car
+patio	patio
+payphone	pay-phone
+pedestal	pedestal
+pencil case	pencil box
+pencil sharpener	pencil sharpener
+perfume	perfume
+Petri dish	Petri dish
+photocopier	photocopier
+plectrum	pick
+Pickelhaube	pickelhaube
+picket fence	picket fence
+pickup truck	pickup
+pier	pier
+piggy bank	piggy bank
+pill bottle	pill bottle
+pillow	pillow
+ping-pong ball	ping-pong ball
+pinwheel	pinwheel
+pirate ship	pirate
+pitcher	pitcher
+hand plane	plane
+planetarium	planetarium
+plastic bag	plastic bag
+plate rack	plate rack
+plow	plow
+plunger	plunger
+Polaroid camera	Polaroid camera
+pole	pole
+police van	police van
+poncho	poncho
+billiard table	pool table
+soda bottle	pop bottle
+pot	pot
+potter's wheel	potter's wheel
+power drill	power drill
+prayer rug	prayer rug
+printer	printer
+prison	prison
+projectile	projectile
+projector	projector
+hockey puck	puck
+punching bag	punching bag
+purse	purse
+quill	quill
+quilt	quilt
+race car	racer
+racket	racket
+radiator	radiator
+radio	radio
+radio telescope	radio telescope
+rain barrel	rain barrel
+recreational vehicle	recreational vehicle
+reel	reel
+reflex camera	reflex camera
+refrigerator	refrigerator
+remote control	remote control
+restaurant	restaurant
+revolver	revolver
+rifle	rifle
+rocking chair	rocking chair
+rotisserie	rotisserie
+eraser	rubber eraser
+rugby ball	rugby ball
+ruler	rule
+running shoe	running shoe
+safe	safe
+safety pin	safety pin
+salt shaker	saltshaker
+sandal	sandal
+sarong	sarong
+saxophone	sax
+scabbard	scabbard
+weighing scale	scale
+school bus	school bus
+schooner	schooner
+scoreboard	scoreboard
+CRT screen	screen
+screw	screw
+screwdriver	screwdriver
+seat belt	seat belt
+sewing machine	sewing machine
+shield	shield
+shoe store	shoe shop
+shoji	shoji
+shopping basket	shopping basket
+shopping cart	shopping cart
+shovel	shovel
+shower cap	shower cap
+shower curtain	shower curtain
+ski	ski
+ski mask	ski mask
+sleeping bag	sleeping bag
+slide rule	slide rule
+sliding door	sliding door
+slot machine	slot
+snorkel	snorkel
+snowmobile	snowmobile
+snowplow	snowplow
+soap dispenser	soap dispenser
+soccer ball	soccer ball
+sock	sock
+solar thermal collector	solar dish
+sombrero	sombrero
+soup bowl	soup bowl
+space bar	space bar
+space heater	space heater
+space shuttle	space shuttle
+spatula	spatula
+motorboat	speedboat
+spider web	spider web
+spindle	spindle
+sports car	sports car
+spotlight	spotlight
+stage	stage
+steam locomotive	steam locomotive
+through arch bridge	steel arch bridge
+steel drum	steel drum
+stethoscope	stethoscope
+scarf	stole
+stone wall	stone wall
+stopwatch	stopwatch
+stove	stove
+strainer	strainer
+tram	streetcar
+stretcher	stretcher
+couch	studio couch
+stupa	stupa
+submarine	submarine
+suit	suit
+sundial	sundial
+sunglass	sunglass
+sunglasses	sunglasses
+sunscreen	sunscreen
+suspension bridge	suspension bridge
+mop	swab
+sweatshirt	sweatshirt
+swimsuit	swimming trunks
+swing	swing
+switch	switch
+syringe	syringe
+table lamp	table lamp
+tank	tank
+tape player	tape player
+teapot	teapot
+teddy bear	teddy
+television	television
+tennis ball	tennis ball
+thatched roof	thatch
+front curtain	theater curtain
+thimble	thimble
+threshing machine	thresher
+throne	throne
+tile roof	tile roof
+toaster	toaster
+tobacco shop	tobacco shop
+toilet seat	toilet seat
+torch	torch
+totem pole	totem pole
+tow truck	tow truck
+toy store	toyshop
+tractor	tractor
+semi-trailer truck	trailer truck
+tray	tray
+trench coat	trench coat
+tricycle	tricycle
+trimaran	trimaran
+tripod	tripod
+triumphal arch	triumphal arch
+trolleybus	trolleybus
+trombone	trombone
+tub	tub
+turnstile	turnstile
+typewriter keyboard	typewriter keyboard
+umbrella	umbrella
+unicycle	unicycle
+upright piano	upright
+vacuum cleaner	vacuum
+vase	vase
+vault	vault
+velvet	velvet
+vending machine	vending machine
+vestment	vestment
+viaduct	viaduct
+violin	violin
+volleyball	volleyball
+waffle iron	waffle iron
+wall clock	wall clock
+wallet	wallet
+wardrobe	wardrobe
+military aircraft	warplane
+sink	washbasin
+washing machine	washer
+water bottle	water bottle
+water jug	water jug
+water tower	water tower
+whiskey jug	whiskey jug
+whistle	whistle
+wig	wig
+window screen	window screen
+window shade	window shade
+Windsor tie	Windsor tie
+wine bottle	wine bottle
+wing	wing
+wok	wok
+wooden spoon	wooden spoon
+wool	wool
+split-rail fence	worm fence
+shipwreck	wreck
+yawl	yawl
+yurt	yurt
+website	web site
+comic book	comic book
+crossword	crossword puzzle
+traffic sign	street sign
+traffic light	traffic light
+dust jacket	book jacket
+menu	menu
+plate	plate
+guacamole	guacamole
+consomme	consomme
+hot pot	hot pot
+trifle	trifle
+ice cream	ice cream
+ice pop	ice lolly
+baguette	French loaf
+bagel	bagel
+pretzel	pretzel
+cheeseburger	cheeseburger
+hot dog	hotdog
+mashed potato	mashed potato
+cabbage	head cabbage
+broccoli	broccoli
+cauliflower	cauliflower
+zucchini	zucchini
+spaghetti squash	spaghetti squash
+acorn squash	acorn squash
+butternut squash	butternut squash
+cucumber	cucumber
+artichoke	artichoke
+bell pepper	bell pepper
+cardoon	cardoon
+mushroom	mushroom
+Granny Smith	Granny Smith
+strawberry	strawberry
+orange	orange
+lemon	lemon
+fig	fig
+pineapple	pineapple
+banana	banana
+jackfruit	jackfruit
+custard apple	custard apple
+pomegranate	pomegranate
+hay	hay
+carbonara	carbonara
+chocolate syrup	chocolate sauce
+dough	dough
+meatloaf	meat loaf
+pizza	pizza
+pot pie	potpie
+burrito	burrito
+red wine	red wine
+espresso	espresso
+cup	cup
+eggnog	eggnog
+alp	alp
+bubble	bubble
+cliff	cliff
+coral reef	coral reef
+geyser	geyser
+lakeshore	lakeside
+promontory	promontory
+shoal	sandbar
+seashore	seashore
+valley	valley
+volcano	volcano
+baseball player	ballplayer
+bridegroom	groom
+scuba diver	scuba diver
+rapeseed	rapeseed
+daisy	daisy
+yellow lady's slipper	yellow lady's slipper
+corn	corn
+acorn	acorn
+rose hip	hip
+horse chestnut seed	buckeye
+coral fungus	coral fungus
+agaric	agaric
+gyromitra	gyromitra
+stinkhorn mushroom	stinkhorn
+earth star	earthstar
+hen-of-the-woods	hen-of-the-woods
+bolete	bolete
+ear of corn	ear
+toilet paper	toilet tissue
