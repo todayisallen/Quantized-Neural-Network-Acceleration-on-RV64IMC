@@ -1,5 +1,5 @@
 # configuration: X2
-# 日期: 2026-10-22 16:19:20
+# 日期: 2026-10-23 15:11:02
 # MAC 總數: 385187552
 # 注意：histogram 涵蓋整個程式（含 AllocateTensors 與啟動碼），
 #       不只 Invoke。B0 實測 Invoke 占 99.92%，污染可忽略。

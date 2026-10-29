@@ -21,10 +21,40 @@ ARENA_KB  ?= 1713
 # 而 __divdf3 繞不開 —— rv64imc 沒有 FPU，QuantizeMultiplier 的 double
 # 除法一定要它。所以另外建了一套 --with-cmodel=medany 的。
 #
-# 寫死路徑而不是靠 PATH，是因為 PATH 上還有舊的那套，
-# 用錯了只會在連結時才爆，而且錯誤訊息看起來跟 code model 無關。
-RISCV_MEDANY ?= $(HOME)/ca-project/riscv-medany
-CROSS   := $(RISCV_MEDANY)/bin/riscv64-unknown-elf-
+# 這裡**不能**單純寫死路徑，也不能單純靠 PATH：
+#
+#   - 開發機的 PATH 上還有舊的 medlow 那套，靠 PATH 會抓錯，而且只在
+#     連結時才爆、錯誤訊息看起來跟 code model 完全無關。
+#   - 但寫死 $(HOME)/ca-project/riscv-medany 的話，任何乾淨 clone 的人
+#     （toolchain 裝在 /usr/bin）都會拿到 "Command not found"，而他的
+#     PATH 上明明就有一個可用的編譯器。
+#
+# 所以用解析順序，第一個命中就用：
+#
+#   1. 使用者明確給 RISCV_MEDANY=         → 用它，不猜
+#   2. $(HOME)/ca-project/riscv-medany     → 本專案開發機，行為不變
+#   3. PATH 上的 riscv64-unknown-elf-g++   → 乾淨 clone 的情況
+#   4. 都沒有                              → 留 2 的路徑讓錯誤訊息具體
+#
+# `make -C bare paths` 會印出命中的是哪一條。
+ifeq ($(origin RISCV_MEDANY), undefined)
+  DEV_MEDANY := $(HOME)/ca-project/riscv-medany
+  ifneq ($(wildcard $(DEV_MEDANY)/bin/riscv64-unknown-elf-g++),)
+    CROSS      := $(DEV_MEDANY)/bin/riscv64-unknown-elf-
+    CROSS_FROM := $(DEV_MEDANY)（本機的 medany toolchain）
+  else ifneq ($(shell command -v riscv64-unknown-elf-g++ 2>/dev/null),)
+    CROSS      := riscv64-unknown-elf-
+    CROSS_FROM := PATH
+  else
+    CROSS      := $(DEV_MEDANY)/bin/riscv64-unknown-elf-
+    CROSS_FROM := 找不到任何 riscv toolchain（見 README「取得 RISC-V toolchain」）
+  endif
+  RISCV_MEDANY := $(DEV_MEDANY)
+else
+  CROSS      := $(RISCV_MEDANY)/bin/riscv64-unknown-elf-
+  CROSS_FROM := RISCV_MEDANY=$(RISCV_MEDANY)（明確指定）
+endif
+
 CXX     := $(CROSS)g++
 OBJDUMP := $(CROSS)objdump
 NM      := $(CROSS)nm
@@ -84,7 +114,53 @@ LDFLAGS := -march=$(ARCH) -mabi=$(ABI) -mcmodel=medany \
 # **不連 -lm -lc** —— string 與 math 由 libc_min.cc 自己提供。
 # 原因見 libc_min.cc 開頭：newlib 的 libm 是 medlow 建的，
 # 連在 0x80000000 會 relocation truncated to fit。
-LDLIBS := -lgcc
+# 連結用的 libgcc。預設用 toolchain 自己附的那份（需要 medany 建的 toolchain）。
+#
+# 只有標準（medlow）toolchain 時，指向本專案附的 medany libgcc：
+#   make LIBGCC=../prebuilt/libgcc-medany-rv64imc-lp64.a CONFIG=X2 run
+#
+# 為什麼只缺 libgcc 這一個檔：
+#   -mcmodel=medany 是**編譯器旗標**，標準 toolchain 本來就支援，而且
+#   本 Makefile 與 TFLM 的 riscv64 target（tflm-patch/riscv64_generic_makefile.inc
+#   的 PLATFORM_FLAGS）都明確帶了它。真正不能用的只有 toolchain 附的
+#   libgcc.a —— 它是 medlow 建的，__divdf3 的 jump table 與 __clz_tab 用絕對
+#   定址，連在 0x80000000 會 relocation truncated to fit。
+#   rv64imc 沒有 FPU，而 QuantizeMultiplier 的 double 除法一定要 __divdf3，
+#   所以這個依賴繞不開。
+#
+# 也就是說：附一份 5.8 MB 的 medany libgcc.a，就能省掉幾小時的 toolchain 建置。
+# 自動選擇 —— 理由見上面那段註解。
+#
+# 刻意用 origin 而不是 ?=：?= 只在變數「完全沒定義」時賦值，所以它跟
+# origin undefined 等價，但寫成 if 區塊才能在中間插入偵測邏輯。
+#
+# 偵測對象是**編譯器的預設 code model**，不是 toolchain 的名字。標準
+# toolchain 預設 medlow，連結到 0x80000000 會失敗；本專案附的 libgcc.a
+# 是 medany 建的，拿它替換就能用標準 toolchain 跑完所有量測。
+#
+# 這個自動化的目的是讓 measure.sh / instr_mix.sh / verify_image.sh 不必
+# 各自傳 LIBGCC —— 它們都是直接呼叫 make，少一個得記得 export 的環境
+# 變數，就少一個「照著 README 做卻跑不起來」的失敗點。
+#
+# 探測失敗（$(CXX) 不存在、或 -Q --help=target 沒輸出）時不猜：退回
+# -lgcc，讓底下的 check-cmodel 印出它那段完整的兩個補救方式。
+ifeq ($(origin LIBGCC), undefined)
+  CXX_CMODEL := $(shell $(CXX) -Q --help=target 2>/dev/null | \
+                  sed -n 's/^[[:space:]]*-mcmodel=[[:space:]]*\(.*\)$$/\1/p' | head -1)
+  PREBUILT_LIBGCC := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))../prebuilt/libgcc-medany-rv64imc-lp64.a)
+  ifeq ($(CXX_CMODEL),medany)
+    LIBGCC := -lgcc
+  else ifeq ($(CXX_CMODEL),)
+    LIBGCC := -lgcc
+  else ifneq ($(wildcard $(PREBUILT_LIBGCC)),)
+    LIBGCC := $(PREBUILT_LIBGCC)
+    LIBGCC_AUTO := 預設 code model 是 $(CXX_CMODEL)，自動改用 prebuilt/
+  else
+    LIBGCC := -lgcc
+  endif
+endif
+
+LDLIBS := $(LIBGCC)
 
 # ======================================================================
 # 配置：四個 configuration 共用同一份原始碼，差別只在編譯期開關。
@@ -209,9 +285,12 @@ all: $(BIN)
 
 paths: check-cmodel
 	@echo "CXX        = $(CXX) ($(shell $(CXX) --version 2>/dev/null | head -1))"
+	@echo "             來源：$(CROSS_FROM)"
 	@command -v $(CXX) >/dev/null || echo "  !! 找不到 $(CXX)"
 	@command -v $(SPIKE) >/dev/null || echo "  !! 找不到 $(SPIKE)"
 	@echo "SPIKE      = $(SPIKE) -> $(shell command -v $(SPIKE) 2>/dev/null)"
+	@echo "LIBGCC     = $(LIBGCC)"
+	$(if $(LIBGCC_AUTO),@echo "             ($(LIBGCC_AUTO))")
 	@echo "TFLM_ROOT  = $(TFLM_ROOT)"
 	@echo "libmicrolite(riscv64) = $(if $(LIB),$(LIB),<找不到>)"
 	@test -n "$(LIB)" || echo "  !! 請先建 riscv64 版的 microlite，見 README"
@@ -224,16 +303,34 @@ paths: check-cmodel
 # 連結前就確認用的是 medany 的 toolchain。
 # 不檢查的話，用錯 compiler 會一路編譯成功，到最後連結才爆出一堆
 # relocation truncated to fit —— 而那個訊息完全看不出是 code model 的問題。
+# 單一真相來源。setup_env.sh 的 check 階段用這個取得「實際會用的編譯器」
+# —— 它原本自己查 PATH，而 Makefile 不看 PATH，所以 check 會報 ok 然後
+# 建置失敗。有檢查卻檢查錯東西比沒檢查更糟。
+.PHONY: print-cxx
+print-cxx:
+	@echo "$(CXX)"
+
 .PHONY: check-cmodel
 check-cmodel:
-	@m=$$($(CXX) -Q --help=target 2>/dev/null | \
+	@if [ "$(LIBGCC)" != "-lgcc" ]; then \
+	   test -f "$(LIBGCC)" || { \
+	     echo "!! 找不到 LIBGCC=$(LIBGCC)"; \
+	     echo "!! 它應該是 --with-cmodel=medany 建的 libgcc.a"; \
+	     exit 1; }; \
+	   exit 0; \
+	 fi; \
+	 m=$$($(CXX) -Q --help=target 2>/dev/null | \
 	      sed -n 's/^[[:space:]]*-mcmodel=[[:space:]]*\(.*\)$$/\1/p' | head -1); \
 	 if [ "$$m" != "medany" ]; then \
 	   echo "!! $(CXX)"; \
 	   echo "!! 的預設 code model 是 '$$m'，不是 medany。"; \
 	   echo "!! 它附的 libgcc 無法連在 0x80000000（__divdf3 / __clz_tab）。"; \
-	   echo "!! 請確認 RISCV_MEDANY 指向 --with-cmodel=medany 建的那套："; \
-	   echo "!!   目前 RISCV_MEDANY = $(RISCV_MEDANY)"; \
+	   echo "!!"; \
+	   echo "!! 兩個解法："; \
+	   echo "!!   (a) 用本專案附的 medany libgcc（不必重建 toolchain）："; \
+	   echo "!!       make LIBGCC=../prebuilt/libgcc-medany-rv64imc-lp64.a ..."; \
+	   echo "!!   (b) 自建 medany toolchain，見 README 的『備案』一節"; \
+	   echo "!!       目前 RISCV_MEDANY = $(RISCV_MEDANY)"; \
 	   exit 1; \
 	 fi
 

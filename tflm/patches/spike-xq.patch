@@ -26,8 +26,9 @@ index f899a64..0aa9da3 100644
  DECLARE_INSN(add16, MATCH_ADD16, MASK_ADD16)
  DECLARE_INSN(add32, MATCH_ADD32, MASK_ADD32)
 diff --git a/riscv/insns/xqmac8.h b/riscv/insns/xqmac8.h
-index e69de29..bbef239 100644
---- a/riscv/insns/xqmac8.h
+new file mode 100644
+index 0000000..bbef239
+--- /dev/null
 +++ b/riscv/insns/xqmac8.h
 @@ -0,0 +1,16 @@
 +// xqmac8 rd, rs1, rs2
@@ -48,8 +49,9 @@ index e69de29..bbef239 100644
 +WRITE_RD(sext_xlen(acc));
 \ No newline at end of file
 diff --git a/riscv/insns/xqrq.h b/riscv/insns/xqrq.h
-index e69de29..3f05d82 100644
---- a/riscv/insns/xqrq.h
+new file mode 100644
+index 0000000..3f05d82
+--- /dev/null
 +++ b/riscv/insns/xqrq.h
 @@ -0,0 +1,98 @@
 +// xqrq rd, rs1, rs2 — 再量化指令（X2）
@@ -152,8 +154,9 @@ index e69de29..3f05d82 100644
 +WRITE_RD(sext_xlen((int64_t)rq_out));
 \ No newline at end of file
 diff --git a/riscv/insns/xqtest.h b/riscv/insns/xqtest.h
-index e69de29..895e2b1 100644
---- a/riscv/insns/xqtest.h
+new file mode 100644
+index 0000000..895e2b1
+--- /dev/null
 +++ b/riscv/insns/xqtest.h
 @@ -0,0 +1 @@
 +WRITE_RD(sext_xlen(RS1 + RS2));

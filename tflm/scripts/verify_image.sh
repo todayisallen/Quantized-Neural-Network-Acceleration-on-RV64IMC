@@ -64,7 +64,16 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TFLM="$(cd "$HERE/.." && pwd)"
 cd "$TFLM"
 
-MODEL="${MODEL:-$HOME/ca-project/models/eff-lite0/source/model.tflite}"
+# 預設用 repo 內的那份模型，不是家目錄下的開發用副本。
+#
+# 為什麼重要：README 記錄了 repo 內那份的 sha256，而所有效能數字必須是
+# 用「被記錄的那一份」量出來的。預設指向 repo 外的副本會讓兩者漂移 ——
+# 兩份現在位元相同，但改到任一邊就分岔，而這種分岔不會有任何錯誤訊息。
+#
+# 本專案所有的 BITEXACT 都是相對檢查（RV64 ≡ x86、TFLM ≡ LiteRT），
+# 兩邊讀同一份模型檔的話，模型本身有問題會一致地錯 —— 所以「是哪一份
+# 模型」必須是確定的，不能靠慣例。
+MODEL="${MODEL:-$TFLM/../model/eff-lite0/model.tflite}"
 IMAGE="${IMAGE:-tests/data/grace_hopper.bmp}"
 IMAGE_URL="${IMAGE_URL:-https://raw.githubusercontent.com/tensorflow/tensorflow/master/tensorflow/lite/examples/label_image/testdata/grace_hopper.bmp}"
 EXPECT="${EXPECT:-652}"
@@ -113,7 +122,11 @@ restore() {
     echo "gen/ 已還原成原本的內容（已更新 mtime 以強制重編）"
   fi
 }
-trap restore EXIT INT TERM
+# PIPE 與 HUP 不能省。實際踩過：用 `bash scripts/verify_image.sh B0 | head -5`
+# 看輸出時，head 提早關閉管線使 bash 收到 SIGPIPE 而直接結束 ——
+# SIGPIPE 沒被 trap 的話 EXIT trap 不會執行，gen/ 就留在被覆寫的狀態，
+# 而且沒有任何訊息說它沒還原。
+trap restore EXIT INT TERM HUP PIPE
 
 if [ -d gen ]; then
   BAK="$TFLM/gen.before_image.$$"
@@ -135,7 +148,7 @@ mkdir -p "$RES"
 
 TMP="$RES/.imgchk.$$"; mkdir -p "$TMP"
 cleanup_tmp() { rm -rf "$TMP"; }
-trap 'cleanup_tmp; restore' EXIT INT TERM
+trap 'cleanup_tmp; restore' EXIT INT TERM HUP PIPE
 
 # ================================================================ (1) LiteRT
 bold "=== (1) LiteRT：模型本身對不對 ==="

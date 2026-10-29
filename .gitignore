@@ -54,8 +54,18 @@ gen.before_image.*
 __pycache__/
 *.pyc
 
-# 模型檔。預設不收 —— §8.2 要求「quantized model **or** model-conversion
-# scripts」，我們有 tools/ 下的轉換與驗證腳本，所以交腳本即可。
-# 若要連模型一起交（檔案約 5 MB，GitHub 單檔上限 100 MB），
-# 把下面這行註解掉。
-# *.tflite  （已決定收進 repo，見 README）
+# ======================================================================
+# 模型檔：**要收**
+# ======================================================================
+# 這裡原本寫 *.tflite 排除，理由是「§8.2 要求 quantized model **or**
+# model-conversion scripts，我們交 tools/ 下的腳本即可」。那個理由是錯的：
+#
+#   tools/ 底下沒有任何一個會**產生**模型 —— gen_io.py、gen_model_c.py、
+#   model_info.py、check_packed.py 全部都是拿 <model.tflite> 當**輸入**的
+#   消費端腳本。
+#
+# 所以不收模型的話，clone 下來連 gen 階段都跑不起來，更不用說量測。
+# 教授要求「下載之後能夠還原出來」，模型就是還原的前提。
+#
+# 檔案約 5 MB，遠低於 GitHub 的單檔 100 MB 上限。
+# （若之後真的加了轉換腳本，再考慮改回排除。）

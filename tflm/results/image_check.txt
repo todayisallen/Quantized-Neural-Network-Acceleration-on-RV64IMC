@@ -1,6 +1,6 @@
 # 真實圖片的絕對正確性檢查
-# 日期:   2026-10-22 16:29:38
-# 模型:   /users/student/mr114//ccchuang26/ca-project/models/eff-lite0/source/model.tflite
+# 日期:   2026-10-23 15:14:53
+# 模型:   /users/student/mr114/ccchuang26/ca-project/repo/tflm/../model/eff-lite0/model.tflite
 # 圖片:   tests/data/grace_hopper.bmp
 # 前處理: --norm pm1
 # 期望:   class 652
@@ -28,7 +28,7 @@ input 150528 bytes, golden 1000 bytes
 === (2) TFLM@x86 vs LiteRT（跨框架，僅記錄）===
 make: Entering directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/host'
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app  -MMD -MP -c ../app/nn_main.cc -o build/B0/nn_main.o
-g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app  -MMD -MP -c ../app/prof.cc -o build/B0/prof.o
+g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app  -MMD -MP -c ../gen/model_data.cc -o build/B0/model_data.o
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app  -MMD -MP -c ../gen/input_data.cc -o build/B0/input_data.o
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app  -MMD -MP -c ../gen/golden_data.cc -o build/B0/golden_data.o
 g++ build/B0/nn_main.o build/B0/prof.o build/B0/main_host.o build/B0/model_data.o build/B0/input_data.o build/B0/golden_data.o /users/student/mr114//ccchuang26/ca-project/work/tflite-micro/gen/linux_x86_64_default_gcc/lib/libtensorflow-microlite.a -lm -o build/B0/nn_host
@@ -48,89 +48,89 @@ top-5 同序 3/5，同集合 5/5
 top-1 相同
 
 === 分段計數，單位 ns ===
-  AllocateTensors(含Prepare)       31899419
-  Invoke                         1421156944
-    其中 kernel 合計             1421142606  (99.9%)
-    框架 overhead                     14338  (0.0%)
-  合計                           1453056363
+  AllocateTensors(含Prepare)       31807095
+  Invoke                         1414302205
+    其中 kernel 合計             1414297905  (99.9%)
+    框架 overhead                      4300  (0.0%)
+  合計                           1446109300
 
 === 依 operator 彙總，單位 ns ===
   operator               次數         count   占Invoke
-  CONV_2D                  33    1225180687    86.2%
-  DEPTHWISE_CONV_2D        16     191380165    13.4%
-  ADD                       9       2594423     0.1%
-  FULLY_CONNECTED           1       1607847     0.1%
-  AVERAGE_POOL_2D           1        137438     0.0%
-  QUANTIZE                  2        135475     0.0%
-  SOFTMAX                   1        104597     0.0%
-  RESHAPE                   1          1974     0.0%
+  CONV_2D                  33    1219737932    86.2%
+  DEPTHWISE_CONV_2D        16     190158289    13.4%
+  ADD                       9       2564124     0.1%
+  FULLY_CONNECTED           1       1468715     0.1%
+  QUANTIZE                  2        136527     0.0%
+  AVERAGE_POOL_2D           1        131898     0.0%
+  SOFTMAX                   1         99989     0.0%
+  RESHAPE                   1           431     0.0%
 
 === 每層（執行順序），單位 ns ===
    idx  operator                       count   占Invoke
-     0  QUANTIZE                     134202     0.0%
-     1  CONV_2D                    54680905     3.8%
-     2  DEPTHWISE_CONV_2D          24267923     1.7%
-     3  CONV_2D                    24170871     1.7%
-     4  CONV_2D                    87143785     6.1%
-     5  DEPTHWISE_CONV_2D          19031386     1.3%
-     6  CONV_2D                    24852264     1.7%
-     7  CONV_2D                    44454483     3.1%
-     8  DEPTHWISE_CONV_2D          28832385     2.0%
-     9  CONV_2D                    36244348     2.5%
-    10  ADD                          925933     0.0%
-    11  CONV_2D                    45025269     3.1%
-    12  DEPTHWISE_CONV_2D          14506418     1.0%
-    13  CONV_2D                    15093903     1.0%
-    14  CONV_2D                    28212218     1.9%
-    15  DEPTHWISE_CONV_2D          23622789     1.6%
-    16  CONV_2D                    24571956     1.7%
-    17  ADD                          386337     0.0%
-    18  CONV_2D                    29289697     2.0%
-    19  DEPTHWISE_CONV_2D           2858541     0.2%
-    20  CONV_2D                    12308130     0.8%
-    21  CONV_2D                    26286403     1.8%
-    22  DEPTHWISE_CONV_2D           5561089     0.3%
-    23  CONV_2D                    24150933     1.6%
-    24  ADD                          193444     0.0%
-    25  CONV_2D                    26461543     1.8%
-    26  DEPTHWISE_CONV_2D           5466310     0.3%
-    27  CONV_2D                    24179567     1.7%
-    28  ADD                          191661     0.0%
-    29  CONV_2D                    26479627     1.8%
-    30  DEPTHWISE_CONV_2D          11276367     0.7%
-    31  CONV_2D                    33792633     2.3%
-    32  CONV_2D                    51347390     3.6%
-    33  DEPTHWISE_CONV_2D          15561424     1.0%
-    34  CONV_2D                    47199501     3.3%
-    35  ADD                          274557     0.0%
-    36  CONV_2D                    51088001     3.5%
-    37  DEPTHWISE_CONV_2D          15406612     1.0%
-    38  CONV_2D                    47070238     3.3%
-    39  ADD                          269667     0.0%
-    40  CONV_2D                    50445962     3.5%
-    41  DEPTHWISE_CONV_2D           3862381     0.2%
-    42  CONV_2D                    20219943     1.4%
-    43  CONV_2D                    36204905     2.5%
-    44  DEPTHWISE_CONV_2D           6131933     0.4%
-    45  CONV_2D                    34437247     2.4%
-    46  ADD                          115688     0.0%
-    47  CONV_2D                    35930909     2.5%
-    48  DEPTHWISE_CONV_2D           5809486     0.4%
-    49  CONV_2D                    34702056     2.4%
-    50  ADD                          117030     0.0%
-    51  CONV_2D                    35830239     2.5%
-    52  DEPTHWISE_CONV_2D           5837118     0.4%
-    53  CONV_2D                    34578363     2.4%
-    54  ADD                          120106     0.0%
-    55  CONV_2D                    35908506     2.5%
-    56  DEPTHWISE_CONV_2D           3348003     0.2%
-    57  CONV_2D                    57616070     4.0%
-    58  CONV_2D                    65202822     4.5%
-    59  AVERAGE_POOL_2D              137438     0.0%
-    60  RESHAPE                        1974     0.0%
-    61  FULLY_CONNECTED             1607847     0.1%
-    62  SOFTMAX                      104597     0.0%
-    63  QUANTIZE                       1273     0.0%
+     0  QUANTIZE                     135465     0.0%
+     1  CONV_2D                    54556148     3.8%
+     2  DEPTHWISE_CONV_2D          24167464     1.7%
+     3  CONV_2D                    24053208     1.7%
+     4  CONV_2D                    86750562     6.1%
+     5  DEPTHWISE_CONV_2D          18927711     1.3%
+     6  CONV_2D                    24786689     1.7%
+     7  CONV_2D                    44317404     3.1%
+     8  DEPTHWISE_CONV_2D          28711057     2.0%
+     9  CONV_2D                    36120805     2.5%
+    10  ADD                          915924     0.0%
+    11  CONV_2D                    44836051     3.1%
+    12  DEPTHWISE_CONV_2D          14450222     1.0%
+    13  CONV_2D                    15062714     1.0%
+    14  CONV_2D                    28113171     1.9%
+    15  DEPTHWISE_CONV_2D          23587521     1.6%
+    16  CONV_2D                    24520098     1.7%
+    17  ADD                          386367     0.0%
+    18  CONV_2D                    28591402     2.0%
+    19  DEPTHWISE_CONV_2D           2791234     0.1%
+    20  CONV_2D                    12277051     0.8%
+    21  CONV_2D                    26341526     1.8%
+    22  DEPTHWISE_CONV_2D           5553745     0.3%
+    23  CONV_2D                    24077995     1.7%
+    24  ADD                          190498     0.0%
+    25  CONV_2D                    26401649     1.8%
+    26  DEPTHWISE_CONV_2D           5460098     0.3%
+    27  CONV_2D                    24079568     1.7%
+    28  ADD                          193965     0.0%
+    29  CONV_2D                    26236188     1.8%
+    30  DEPTHWISE_CONV_2D          11249566     0.7%
+    31  CONV_2D                    33736857     2.3%
+    32  CONV_2D                    50691072     3.5%
+    33  DEPTHWISE_CONV_2D          15386704     1.0%
+    34  CONV_2D                    47002038     3.3%
+    35  ADD                          266832     0.0%
+    36  CONV_2D                    50627022     3.5%
+    37  DEPTHWISE_CONV_2D          15284542     1.0%
+    38  CONV_2D                    46987481     3.3%
+    39  ADD                          266832     0.0%
+    40  CONV_2D                    50339210     3.5%
+    41  DEPTHWISE_CONV_2D           3868252     0.2%
+    42  CONV_2D                    20153197     1.4%
+    43  CONV_2D                    35974490     2.5%
+    44  DEPTHWISE_CONV_2D           5837869     0.4%
+    45  CONV_2D                    34349451     2.4%
+    46  ADD                          114495     0.0%
+    47  CONV_2D                    35862840     2.5%
+    48  DEPTHWISE_CONV_2D           5779139     0.4%
+    49  CONV_2D                    34516044     2.4%
+    50  ADD                          114726     0.0%
+    51  CONV_2D                    35844354     2.5%
+    52  DEPTHWISE_CONV_2D           5784518     0.4%
+    53  CONV_2D                    34401217     2.4%
+    54  ADD                          114485     0.0%
+    55  CONV_2D                    35797266     2.5%
+    56  DEPTHWISE_CONV_2D           3318647     0.2%
+    57  CONV_2D                    57345229     4.0%
+    58  CONV_2D                    64987935     4.5%
+    59  AVERAGE_POOL_2D              131898     0.0%
+    60  RESHAPE                         431     0.0%
+    61  FULLY_CONNECTED             1468715     0.1%
+    62  SOFTMAX                       99989     0.0%
+    63  QUANTIZE                       1062     0.0%
 
 CLOSE  top-1 相同、不一致率 0.6%（<=5%），最大差 1 LSB
        跨框架差異屬正常範圍。之後 Spike 要對的 golden 是這份 TFLM 輸出，不是 LiteRT
@@ -162,89 +162,89 @@ top-5 同序 5/5，同集合 5/5
 top-1 相同
 
 === 分段計數，單位 ns ===
-  AllocateTensors(含Prepare)       29636800
-  Invoke                         1427738152
-    其中 kernel 合計             1427722612  (99.9%)
-    框架 overhead                     15540  (0.0%)
-  合計                           1457374952
+  AllocateTensors(含Prepare)       29406216
+  Invoke                         1425425894
+    其中 kernel 合計             1425420844  (99.9%)
+    框架 overhead                      5050  (0.0%)
+  合計                           1454832110
 
 === 依 operator 彙總，單位 ns ===
   operator               次數         count   占Invoke
-  CONV_2D                  33    1231181553    86.2%
-  DEPTHWISE_CONV_2D        16     191854257    13.4%
-  ADD                       9       2584245     0.1%
-  FULLY_CONNECTED           1       1725088     0.1%
-  AVERAGE_POOL_2D           1        141987     0.0%
-  QUANTIZE                  2        127920     0.0%
-  SOFTMAX                   1        105478     0.0%
-  RESHAPE                   1          2084     0.0%
+  CONV_2D                  33    1229733977    86.2%
+  DEPTHWISE_CONV_2D        16     191205781    13.4%
+  ADD                       9       2569267     0.1%
+  FULLY_CONNECTED           1       1455350     0.1%
+  QUANTIZE                  2        218752     0.0%
+  AVERAGE_POOL_2D           1        137088     0.0%
+  SOFTMAX                   1        100299     0.0%
+  RESHAPE                   1           330     0.0%
 
 === 每層（執行順序），單位 ns ===
    idx  operator                       count   占Invoke
-     0  QUANTIZE                     126498     0.0%
-     1  CONV_2D                    54942548     3.8%
-     2  DEPTHWISE_CONV_2D          24551447     1.7%
-     3  CONV_2D                    24342765     1.7%
-     4  CONV_2D                    87618288     6.1%
-     5  DEPTHWISE_CONV_2D          19035043     1.3%
-     6  CONV_2D                    24870728     1.7%
-     7  CONV_2D                    44521400     3.1%
-     8  DEPTHWISE_CONV_2D          28912797     2.0%
-     9  CONV_2D                    36305775     2.5%
-    10  ADD                          918289     0.0%
-    11  CONV_2D                    45022292     3.1%
-    12  DEPTHWISE_CONV_2D          14624491     1.0%
-    13  CONV_2D                    15358171     1.0%
-    14  CONV_2D                    28595931     2.0%
-    15  DEPTHWISE_CONV_2D          23700264     1.6%
-    16  CONV_2D                    24589068     1.7%
-    17  ADD                          380977     0.0%
-    18  CONV_2D                    29135947     2.0%
-    19  DEPTHWISE_CONV_2D           2888458     0.2%
-    20  CONV_2D                    12371378     0.8%
-    21  CONV_2D                    26441556     1.8%
-    22  DEPTHWISE_CONV_2D           5569614     0.3%
-    23  CONV_2D                    24341753     1.7%
-    24  ADD                          193114     0.0%
-    25  CONV_2D                    26471661     1.8%
-    26  DEPTHWISE_CONV_2D           5500274     0.3%
-    27  CONV_2D                    24172834     1.6%
-    28  ADD                          195188     0.0%
-    29  CONV_2D                    26541603     1.8%
-    30  DEPTHWISE_CONV_2D          11473809     0.8%
-    31  CONV_2D                    34097848     2.3%
-    32  CONV_2D                    50990027     3.5%
-    33  DEPTHWISE_CONV_2D          15432992     1.0%
-    34  CONV_2D                    47127445     3.3%
-    35  ADD                          273315     0.0%
-    36  CONV_2D                    50712484     3.5%
-    37  DEPTHWISE_CONV_2D          15448902     1.0%
-    38  CONV_2D                    47196395     3.3%
-    39  ADD                          266972     0.0%
-    40  CONV_2D                    55361937     3.8%
-    41  DEPTHWISE_CONV_2D           3911443     0.2%
-    42  CONV_2D                    20301838     1.4%
-    43  CONV_2D                    36125765     2.5%
-    44  DEPTHWISE_CONV_2D           5859310     0.4%
-    45  CONV_2D                    34391701     2.4%
-    46  ADD                          118352     0.0%
-    47  CONV_2D                    35899951     2.5%
-    48  DEPTHWISE_CONV_2D           5802323     0.4%
-    49  CONV_2D                    34617376     2.4%
-    50  ADD                          121178     0.0%
-    51  CONV_2D                    36021639     2.5%
-    52  DEPTHWISE_CONV_2D           5810437     0.4%
-    53  CONV_2D                    34436215     2.4%
-    54  ADD                          116860     0.0%
-    55  CONV_2D                    35817916     2.5%
-    56  DEPTHWISE_CONV_2D           3332653     0.2%
-    57  CONV_2D                    57383162     4.0%
-    58  CONV_2D                    65056156     4.5%
-    59  AVERAGE_POOL_2D              141987     0.0%
-    60  RESHAPE                        2084     0.0%
-    61  FULLY_CONNECTED             1725088     0.1%
-    62  SOFTMAX                      105478     0.0%
-    63  QUANTIZE                       1422     0.0%
+     0  QUANTIZE                     217960     0.0%
+     1  CONV_2D                    54879297     3.8%
+     2  DEPTHWISE_CONV_2D          24313909     1.7%
+     3  CONV_2D                    24196258     1.6%
+     4  CONV_2D                    87201320     6.1%
+     5  DEPTHWISE_CONV_2D          19001940     1.3%
+     6  CONV_2D                    24792090     1.7%
+     7  CONV_2D                    44777410     3.1%
+     8  DEPTHWISE_CONV_2D          28740642     2.0%
+     9  CONV_2D                    36249887     2.5%
+    10  ADD                          924661     0.0%
+    11  CONV_2D                    45183745     3.1%
+    12  DEPTHWISE_CONV_2D          14527647     1.0%
+    13  CONV_2D                    15128779     1.0%
+    14  CONV_2D                    28571454     2.0%
+    15  DEPTHWISE_CONV_2D          23653897     1.6%
+    16  CONV_2D                    24639852     1.7%
+    17  ADD                          383882     0.0%
+    18  CONV_2D                    29019848     2.0%
+    19  DEPTHWISE_CONV_2D           2790052     0.1%
+    20  CONV_2D                    12307027     0.8%
+    21  CONV_2D                    26314906     1.8%
+    22  DEPTHWISE_CONV_2D           5561338     0.3%
+    23  CONV_2D                    24213790     1.6%
+    24  ADD                          190609     0.0%
+    25  CONV_2D                    26710120     1.8%
+    26  DEPTHWISE_CONV_2D           5569394     0.3%
+    27  CONV_2D                    24489199     1.7%
+    28  ADD                          190819     0.0%
+    29  CONV_2D                    26648945     1.8%
+    30  DEPTHWISE_CONV_2D          11333024     0.7%
+    31  CONV_2D                    33998329     2.3%
+    32  CONV_2D                    51429543     3.6%
+    33  DEPTHWISE_CONV_2D          15423474     1.0%
+    34  CONV_2D                    47254122     3.3%
+    35  ADD                          266803     0.0%
+    36  CONV_2D                    50906478     3.5%
+    37  DEPTHWISE_CONV_2D          15541115     1.0%
+    38  CONV_2D                    47362196     3.3%
+    39  ADD                          269207     0.0%
+    40  CONV_2D                    50822329     3.5%
+    41  DEPTHWISE_CONV_2D           3956809     0.2%
+    42  CONV_2D                    20694796     1.4%
+    43  CONV_2D                    36243306     2.5%
+    44  DEPTHWISE_CONV_2D           5854601     0.4%
+    45  CONV_2D                    34438488     2.4%
+    46  ADD                          114375     0.0%
+    47  CONV_2D                    35980841     2.5%
+    48  DEPTHWISE_CONV_2D           5780421     0.4%
+    49  CONV_2D                    34638595     2.4%
+    50  ADD                          114466     0.0%
+    51  CONV_2D                    36064589     2.5%
+    52  DEPTHWISE_CONV_2D           5803775     0.4%
+    53  CONV_2D                    34955672     2.4%
+    54  ADD                          114445     0.0%
+    55  CONV_2D                    35895892     2.5%
+    56  DEPTHWISE_CONV_2D           3353743     0.2%
+    57  CONV_2D                    57574220     4.0%
+    58  CONV_2D                    66150654     4.6%
+    59  AVERAGE_POOL_2D              137088     0.0%
+    60  RESHAPE                         330     0.0%
+    61  FULLY_CONNECTED             1455350     0.1%
+    62  SOFTMAX                      100299     0.0%
+    63  QUANTIZE                        792     0.0%
 
 BITEXACT  1000 個輸出全部位元一致
 輸出已存到 tflm_out.bin (1000 bytes)
@@ -255,13 +255,14 @@ make: Leaving directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/ho
 === (4) B0 on RV64/Spike ===
 make: Entering directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/bare'
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app  -MMD -MP -c ../app/nn_main.cc -o build/B0/nn_main.o
+/users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app  -MMD -MP -c ../gen/model_data.cc -o build/B0/model_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app  -MMD -MP -c ../gen/input_data.cc -o build/B0/input_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app  -MMD -MP -c ../gen/golden_data.cc -o build/B0/golden_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -nostdlib -nostartfiles -mno-relax -T link.ld -Wl,--defsym=LOAD_BASE=0x80000000 -Wl,--no-warn-rwx-segments build/B0/nn_main.o build/B0/prof.o build/B0/main_bare.o build/B0/syscalls.o build/B0/libc_min.o build/B0/model_data.o build/B0/input_data.o build/B0/golden_data.o /users/student/mr114//ccchuang26/ca-project/work/tflite-micro/gen/riscv64_generic_riscv64_default_gcc/lib/libtensorflow-microlite.a -lgcc -o build/B0/nn_bare
 -> build/B0/nn_bare
    text	   data	    bss	    dec	    hex	filename
 5730210	     32	1757216	7487458	 723fe2	build/B0/nn_bare
-/users/student/mr114//ccchuang26/ca-project/work/riscv-isa-sim/build/spike --isa=rv64imc_zicsr -m64 build/B0/nn_bare   （可能要跑幾分鐘）
+spike --isa=rv64imc_zicsr -m64 build/B0/nn_bare   （可能要跑幾分鐘）
 --- nn_main: arena 1713 KiB ---
     輸入: image=grace_hopper.bmp norm=pm1
     golden: TFLM@x86(CONFIG=B0) in=image=grace_hopper.bmp norm=pm1
@@ -369,9 +370,7 @@ make: Leaving directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/ba
 === (4) B1 on x86 ===
 make: Entering directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/host'
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../app/nn_main.cc -o build/B1/nn_main.o
-g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../app/prof.cc -o build/B1/prof.o
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../app/conv_xq.cc -o build/B1/conv_xq.o
-g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../app/dwconv_xq.cc -o build/B1/dwconv_xq.o
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../gen/model_data.cc -o build/B1/model_data.o
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../gen/input_data.cc -o build/B1/input_data.o
 g++ -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -DTF_LITE_STATIC_MEMORY -DARENA_KB=1713 -fno-exceptions -fno-rtti -fno-threadsafe-statics -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/gemmlowp -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/ruy -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/kissfft -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../gen/golden_data.cc -o build/B1/golden_data.o
@@ -392,89 +391,89 @@ top-5 同序 5/5，同集合 5/5
 top-1 相同
 
 === 分段計數，單位 ns ===
-  AllocateTensors(含Prepare)       32332264
-  Invoke                          384788068
-    其中 kernel 合計              384773558  (99.9%)
-    框架 overhead                     14510  (0.0%)
-  合計                            417120332
+  AllocateTensors(含Prepare)       29570394
+  Invoke                          384825616
+    其中 kernel 合計              384822033  (99.9%)
+    框架 overhead                      3583  (0.0%)
+  合計                            414396010
 
 === 依 operator 彙總，單位 ns ===
   operator               次數         count   占Invoke
-  CONV_2D                  33     329784446    85.7%
-  DEPTHWISE_CONV_2D        16      49857373    12.9%
-  ADD                       9       2762729     0.7%
-  FULLY_CONNECTED           1       1991259     0.5%
-  AVERAGE_POOL_2D           1        140294     0.0%
-  QUANTIZE                  2        133090     0.0%
-  SOFTMAX                   1        102604     0.0%
-  RESHAPE                   1          1763     0.0%
+  CONV_2D                  33     330318485    85.8%
+  DEPTHWISE_CONV_2D        16      50078629    13.0%
+  ADD                       9       2596948     0.6%
+  FULLY_CONNECTED           1       1455439     0.3%
+  QUANTIZE                  2        137489     0.0%
+  AVERAGE_POOL_2D           1        132930     0.0%
+  SOFTMAX                   1        101301     0.0%
+  RESHAPE                   1           812     0.0%
 
 === 每層（執行順序），單位 ns ===
    idx  operator                       count   占Invoke
-     0  QUANTIZE                     131417     0.0%
-     1  CONV_2D                    54643975    14.2%
-     2  DEPTHWISE_CONV_2D           5592407     1.4%
-     3  CONV_2D                     5972953     1.5%
-     4  CONV_2D                    22214007     5.7%
-     5  DEPTHWISE_CONV_2D           4082395     1.0%
-     6  CONV_2D                     5963937     1.5%
-     7  CONV_2D                    10716754     2.7%
-     8  DEPTHWISE_CONV_2D           6232001     1.6%
-     9  CONV_2D                     8532943     2.2%
-    10  ADD                          922676     0.2%
-    11  CONV_2D                    10731321     2.7%
-    12  DEPTHWISE_CONV_2D           3034612     0.7%
-    13  CONV_2D                     3544863     0.9%
-    14  CONV_2D                     6553837     1.7%
-    15  DEPTHWISE_CONV_2D           5586146     1.4%
-    16  CONV_2D                     5706412     1.4%
-    17  ADD                          385235     0.1%
-    18  CONV_2D                     6554459     1.7%
-    19  DEPTHWISE_CONV_2D            686843     0.1%
-    20  CONV_2D                     2837772     0.7%
-    21  CONV_2D                     6097699     1.5%
-    22  DEPTHWISE_CONV_2D           1489754     0.3%
-    23  CONV_2D                     5531253     1.4%
-    24  ADD                          190699     0.0%
-    25  CONV_2D                     6363369     1.6%
-    26  DEPTHWISE_CONV_2D           1493471     0.3%
-    27  CONV_2D                     5530812     1.4%
-    28  ADD                          196300     0.0%
-    29  CONV_2D                     6147011     1.5%
-    30  DEPTHWISE_CONV_2D           3267841     0.8%
-    31  CONV_2D                     7842403     2.0%
-    32  CONV_2D                    11845269     3.0%
-    33  DEPTHWISE_CONV_2D           4583929     1.1%
-    34  CONV_2D                    10732514     2.7%
-    35  ADD                          448945     0.1%
-    36  CONV_2D                    11859065     3.0%
-    37  DEPTHWISE_CONV_2D           4610339     1.1%
-    38  CONV_2D                    10745448     2.7%
-    39  ADD                          267704     0.0%
-    40  CONV_2D                    11904399     3.0%
-    41  DEPTHWISE_CONV_2D           1162479     0.3%
-    42  CONV_2D                     4702933     1.2%
-    43  CONV_2D                     8337805     2.1%
-    44  DEPTHWISE_CONV_2D           2330197     0.6%
-    45  CONV_2D                     8171472     2.1%
-    46  ADD                          116819     0.0%
-    47  CONV_2D                     8320283     2.1%
-    48  DEPTHWISE_CONV_2D           2335837     0.6%
-    49  CONV_2D                     8213962     2.1%
-    50  ADD                          117672     0.0%
-    51  CONV_2D                     8312548     2.1%
-    52  DEPTHWISE_CONV_2D           2334595     0.6%
-    53  CONV_2D                     8003316     2.0%
-    54  ADD                          116679     0.0%
-    55  CONV_2D                     8519848     2.2%
-    56  DEPTHWISE_CONV_2D           1034527     0.2%
-    57  CONV_2D                    13372483     3.4%
-    58  CONV_2D                    15257321     3.9%
-    59  AVERAGE_POOL_2D              140294     0.0%
-    60  RESHAPE                        1763     0.0%
-    61  FULLY_CONNECTED             1991259     0.5%
-    62  SOFTMAX                      102604     0.0%
-    63  QUANTIZE                       1673     0.0%
+     0  QUANTIZE                     136607     0.0%
+     1  CONV_2D                    54822549    14.2%
+     2  DEPTHWISE_CONV_2D           5626170     1.4%
+     3  CONV_2D                     6012898     1.5%
+     4  CONV_2D                    22403542     5.8%
+     5  DEPTHWISE_CONV_2D           4083767     1.0%
+     6  CONV_2D                     5971110     1.5%
+     7  CONV_2D                    10790001     2.8%
+     8  DEPTHWISE_CONV_2D           6367607     1.6%
+     9  CONV_2D                     8707190     2.2%
+    10  ADD                          958084     0.2%
+    11  CONV_2D                    10747451     2.7%
+    12  DEPTHWISE_CONV_2D           3042989     0.7%
+    13  CONV_2D                     3521619     0.9%
+    14  CONV_2D                     6637364     1.7%
+    15  DEPTHWISE_CONV_2D           5597377     1.4%
+    16  CONV_2D                     5724666     1.4%
+    17  ADD                          381067     0.0%
+    18  CONV_2D                     6575828     1.7%
+    19  DEPTHWISE_CONV_2D            683497     0.1%
+    20  CONV_2D                     2839285     0.7%
+    21  CONV_2D                     6487753     1.6%
+    22  DEPTHWISE_CONV_2D           1487580     0.3%
+    23  CONV_2D                     5541983     1.4%
+    24  ADD                          190548     0.0%
+    25  CONV_2D                     6224427     1.6%
+    26  DEPTHWISE_CONV_2D           1489534     0.3%
+    27  CONV_2D                     5528937     1.4%
+    28  ADD                          190539     0.0%
+    29  CONV_2D                     6031754     1.5%
+    30  DEPTHWISE_CONV_2D           3271849     0.8%
+    31  CONV_2D                     7828606     2.0%
+    32  CONV_2D                    11843795     3.0%
+    33  DEPTHWISE_CONV_2D           4589439     1.1%
+    34  CONV_2D                    10751940     2.7%
+    35  ADD                          266752     0.0%
+    36  CONV_2D                    11858513     3.0%
+    37  DEPTHWISE_CONV_2D           4645605     1.2%
+    38  CONV_2D                    10729758     2.7%
+    39  ADD                          266592     0.0%
+    40  CONV_2D                    11834287     3.0%
+    41  DEPTHWISE_CONV_2D           1164001     0.3%
+    42  CONV_2D                     4661464     1.2%
+    43  CONV_2D                     8307037     2.1%
+    44  DEPTHWISE_CONV_2D           2328974     0.6%
+    45  CONV_2D                     8123382     2.1%
+    46  ADD                          114435     0.0%
+    47  CONV_2D                     8265499     2.1%
+    48  DEPTHWISE_CONV_2D           2335356     0.6%
+    49  CONV_2D                     8096972     2.1%
+    50  ADD                          114476     0.0%
+    51  CONV_2D                     8434307     2.1%
+    52  DEPTHWISE_CONV_2D           2336779     0.6%
+    53  CONV_2D                     8009277     2.0%
+    54  ADD                          114455     0.0%
+    55  CONV_2D                     8457942     2.1%
+    56  DEPTHWISE_CONV_2D           1028105     0.2%
+    57  CONV_2D                    13388984     3.4%
+    58  CONV_2D                    15158365     3.9%
+    59  AVERAGE_POOL_2D              132930     0.0%
+    60  RESHAPE                         812     0.0%
+    61  FULLY_CONNECTED             1455439     0.3%
+    62  SOFTMAX                      101301     0.0%
+    63  QUANTIZE                        882     0.0%
 
 BITEXACT  1000 個輸出全部位元一致
 輸出已存到 tflm_out.bin (1000 bytes)
@@ -485,13 +484,15 @@ make: Leaving directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/ho
 === (4) B1 on RV64/Spike ===
 make: Entering directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/bare'
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../app/nn_main.cc -o build/B1/nn_main.o
+/users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../app/conv_xq.cc -o build/B1/conv_xq.o
+/users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../gen/model_data.cc -o build/B1/model_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../gen/input_data.cc -o build/B1/input_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -MMD -MP -c ../gen/golden_data.cc -o build/B1/golden_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -nostdlib -nostartfiles -mno-relax -T link.ld -Wl,--defsym=LOAD_BASE=0x80000000 -Wl,--no-warn-rwx-segments build/B1/nn_main.o build/B1/prof.o build/B1/conv_xq.o build/B1/dwconv_xq.o build/B1/main_bare.o build/B1/syscalls.o build/B1/libc_min.o build/B1/model_data.o build/B1/input_data.o build/B1/golden_data.o /users/student/mr114//ccchuang26/ca-project/work/tflite-micro/gen/riscv64_generic_riscv64_default_gcc/lib/libtensorflow-microlite.a -lgcc -o build/B1/nn_bare
 -> build/B1/nn_bare
    text	   data	    bss	    dec	    hex	filename
 5725658	     32	1769504	7495194	 725e1a	build/B1/nn_bare
-/users/student/mr114//ccchuang26/ca-project/work/riscv-isa-sim/build/spike --isa=rv64imc_zicsr -m64 build/B1/nn_bare   （可能要跑幾分鐘）
+spike --isa=rv64imc_zicsr -m64 build/B1/nn_bare   （可能要跑幾分鐘）
 --- nn_main: arena 1713 KiB ---
     輸入: image=grace_hopper.bmp norm=pm1
     golden: TFLM@x86(CONFIG=B0) in=image=grace_hopper.bmp norm=pm1
@@ -601,13 +602,15 @@ make: Leaving directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/ba
 === (4) X1 on RV64/Spike ===
 make: Entering directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/bare'
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -DUSE_XQMAC8 -MMD -MP -c ../app/nn_main.cc -o build/X1/nn_main.o
+/users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -DUSE_XQMAC8 -MMD -MP -c ../app/conv_xq.cc -o build/X1/conv_xq.o
+/users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -DUSE_XQMAC8 -MMD -MP -c ../gen/model_data.cc -o build/X1/model_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -DUSE_XQMAC8 -MMD -MP -c ../gen/input_data.cc -o build/X1/input_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -std=c++17 -O2 -Wall -Wextra -Wno-unused-parameter -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -fomit-frame-pointer -funsigned-char -fno-delete-null-pointer-checks -DTF_LITE_STATIC_MEMORY -DTFLM_REMOVE_VIRTUAL_DELETE -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_GLOBAL_CMATH_FUNCTIONS -DTF_LITE_USE_GLOBAL_MIN -DTF_LITE_USE_GLOBAL_MAX -DARENA_KB=1713 -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/flatbuffers/include -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads -I/users/student/mr114//ccchuang26/ca-project/work/tflite-micro/tensorflow/lite/micro/tools/make/downloads/eyalroz_printf/src -I../gen -I../app -DUSE_CONV_XQ -DTFLM_REG_CONV_2D='Register_CONV_2D_XQ()' -DUSE_DWCONV_XQ -DTFLM_REG_DEPTHWISE_CONV_2D='Register_DEPTHWISE_CONV_2D_XQ()' -DUSE_XQMAC8 -MMD -MP -c ../gen/golden_data.cc -o build/X1/golden_data.o
 /users/student/mr114//ccchuang26/ca-project/riscv-medany/bin/riscv64-unknown-elf-g++ -march=rv64imc_zicsr -mabi=lp64 -mcmodel=medany -nostdlib -nostartfiles -mno-relax -T link.ld -Wl,--defsym=LOAD_BASE=0x80000000 -Wl,--no-warn-rwx-segments build/X1/nn_main.o build/X1/prof.o build/X1/conv_xq.o build/X1/dwconv_xq.o build/X1/main_bare.o build/X1/syscalls.o build/X1/libc_min.o build/X1/model_data.o build/X1/input_data.o build/X1/golden_data.o /users/student/mr114//ccchuang26/ca-project/work/tflite-micro/gen/riscv64_generic_riscv64_default_gcc/lib/libtensorflow-microlite.a -lgcc -o build/X1/nn_bare
 -> build/X1/nn_bare
    text	   data	    bss	    dec	    hex	filename
 5725854	     32	2179104	7904990	 789ede	build/X1/nn_bare
-/users/student/mr114//ccchuang26/ca-project/work/riscv-isa-sim/build/spike --isa=rv64imc_zicsr -m64 build/X1/nn_bare   （可能要跑幾分鐘）
+spike --isa=rv64imc_zicsr -m64 build/X1/nn_bare   （可能要跑幾分鐘）
 --- nn_main: arena 1713 KiB ---
     輸入: image=grace_hopper.bmp norm=pm1
     golden: TFLM@x86(CONFIG=B0) in=image=grace_hopper.bmp norm=pm1
@@ -723,7 +726,7 @@ make: Entering directory `/users/student/mr114/ccchuang26/ca-project/repo/tflm/b
 -> build/X2/nn_bare
    text	   data	    bss	    dec	    hex	filename
 5725274	     32	2203680	7928986	 78fc9a	build/X2/nn_bare
-/users/student/mr114//ccchuang26/ca-project/work/riscv-isa-sim/build/spike --isa=rv64imc_zicsr -m64 build/X2/nn_bare   （可能要跑幾分鐘）
+spike --isa=rv64imc_zicsr -m64 build/X2/nn_bare   （可能要跑幾分鐘）
 --- nn_main: arena 1713 KiB ---
     輸入: image=grace_hopper.bmp norm=pm1
     golden: TFLM@x86(CONFIG=B0) in=image=grace_hopper.bmp norm=pm1

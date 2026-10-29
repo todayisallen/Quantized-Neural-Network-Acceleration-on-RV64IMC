@@ -20,7 +20,16 @@ set -uo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TFLM="$(cd "$HERE/.." && pwd)"
-MODEL="${MODEL:-$HOME/ca-project/models/eff-lite0/source/model.tflite}"
+# 預設用 repo 內的那份模型，不是家目錄下的開發用副本。
+#
+# 為什麼重要：README 記錄了 repo 內那份的 sha256，而所有效能數字必須是
+# 用「被記錄的那一份」量出來的。預設指向 repo 外的副本會讓兩者漂移 ——
+# 兩份現在位元相同，但改到任一邊就分岔，而這種分岔不會有任何錯誤訊息。
+#
+# 本專案所有的 BITEXACT 都是相對檢查（RV64 ≡ x86、TFLM ≡ LiteRT），
+# 兩邊讀同一份模型檔的話，模型本身有問題會一致地錯 —— 所以「是哪一份
+# 模型」必須是確定的，不能靠慣例。
+MODEL="${MODEL:-$TFLM/../model/eff-lite0/model.tflite}"
 ARENA_KB="${ARENA_KB:-1713}"
 SPIKE_ISA="${SPIKE_ISA:-rv64imc_zicsr}"
 # 用哪一個 spike。樹裡可能有多個版本（刻意不覆蓋舊的，好讓舊量測能重現），

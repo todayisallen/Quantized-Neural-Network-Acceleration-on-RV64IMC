@@ -14,7 +14,22 @@ GEN       ?= ../gen
 APP       ?= ../app
 ARENA_KB  ?= 8192
 
-CXX       ?= /usr/local/bin/g++        # CentOS 7 的 /usr/bin/g++ 是 4.8.5，太舊
+# 編譯器。這裡**刻意不設預設值**：
+#
+# 原本寫的是 `CXX ?= /usr/local/bin/g++`（為了避開 CentOS 7 內建的 4.8.5），
+# 但那行是**無效的** —— make 有內建的 CXX = g++（origin 'default'），而 ?=
+# 把「有 default 值」當成「已設定」，所以根本不會賦值。實測：
+#
+#   CXX ?= /usr/local/bin/g++   ->   CXX = g++  (origin: default)
+#
+# 在開發機上建置成功是因為 PATH 裡 /usr/local/bin 排在 /usr/bin 前面，
+# `g++` 剛好解析到新版 —— 與那行 Makefile 無關。
+#
+# 寫死路徑也不對（不可攜）。所以改成：用 PATH 上的 g++，並在 `make paths`
+# 實際編一個 C++17 的小程式來檢查。要指定別的編譯器就從命令列傳：
+#
+#   make CXX=/usr/local/bin/g++ ...
+#   make CXX=clang++ ...
 
 DL   := $(TFLM_ROOT)/tensorflow/lite/micro/tools/make/downloads
 # 庫名在 TFLM 版本之間改過：舊的叫 libtensorflow-microlite.a，
@@ -97,6 +112,14 @@ paths:
 	@echo "libtflm   = $(if $(LIB),$(LIB),<找不到>)"
 	@test -n "$(LIB)" || echo "  !! 請先在 TFLM_ROOT 下建 microlite（見 RUNBOOK 步驟 1）"
 	@echo "CXX       = $(CXX) ($(shell $(CXX) --version 2>/dev/null | head -1))"
+	@command -v $(CXX) >/dev/null 2>&1 || echo "  !! 找不到 $(CXX)"
+	@t=$$(mktemp /tmp/cxx17probe.XXXXXX.cc); \
+	 printf '#include <cstdint>\n#include <type_traits>\nint main(){ if constexpr(true){} return 0; }\n' > $$t; \
+	 $(CXX) -std=c++17 -fsyntax-only $$t 2>/dev/null \
+	   || { echo "  !! $(CXX) 不支援 -std=c++17"; \
+	        echo "  !!   TFLM 需要 C++17。CentOS 7 內建的 g++ 4.8.5 不夠。"; \
+	        echo "  !!   用 make CXX=/path/to/newer/g++ 指定"; }; \
+	 rm -f $$t
 	@echo "CONFIG    = $(CONFIG)"
 	@echo "ARENA_KB  = $(ARENA_KB)"
 	@for f in $(SRC); do test -f $$f && echo "  ok   $$f" || echo "  MISS $$f"; done

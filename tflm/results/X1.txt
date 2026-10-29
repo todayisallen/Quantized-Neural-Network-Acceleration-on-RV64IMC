@@ -1,106 +1,106 @@
 # configuration: X1
-# 日期: 2026-10-22 16:28:07
+# 日期: 2026-10-23 15:09:56
 # arena: 1713 KiB
 # spike: --isa=rv64imc_zicsr -m64
 # 離開碼: 0
 
 --- nn_main: arena 1713 KiB ---
-    輸入: random seed=0
-    golden: TFLM@x86(CONFIG=B0) in=random seed=0
+    輸入: image=grace_hopper.bmp norm=pm1
+    golden: TFLM@x86(CONFIG=B0) in=image=grace_hopper.bmp norm=pm1
 arena_used_bytes = 1688192  (= 1649 KiB)
 比對 1000 個輸出：不一致 0 (0%)，最大差 0
 差異分布  <=-3:0  -2:0  -1:0  0:1000  +1:0  +2:0  >=+3:0
-  top1  TFLM: class   21 q=  53  |  golden: class   21 q=  53
-  top2  TFLM: class   92 q=  21  |  golden: class   92 q=  21
-  top3  TFLM: class   22 q=  19  |  golden: class   22 q=  19
-  top4  TFLM: class   23 q=  17  |  golden: class   23 q=  17
-  top5  TFLM: class  127 q=  13  |  golden: class  127 q=  13
+  top1  TFLM: class  652 q= 104  |  golden: class  652 q= 104
+  top2  TFLM: class  465 q=  18  |  golden: class  465 q=  18
+  top3  TFLM: class  834 q=  15  |  golden: class  834 q=  15
+  top4  TFLM: class  457 q=  10  |  golden: class  457 q=  10
+  top5  TFLM: class  906 q=  10  |  golden: class  906 q=  10
 top-5 同序 5/5，同集合 5/5
 top-1 相同
 
 === 分段計數，單位 instret ===
   AllocateTensors(含Prepare)       15057926
-  Invoke                         1590153616
-    其中 kernel 合計             1590149143  (99.9%)
+  Invoke                         1590059459
+    其中 kernel 合計             1590054986  (99.9%)
     框架 overhead                      4473  (0.0%)
-  合計                           1605211542
+  合計                           1605117385
 
 === 依 operator 彙總，單位 instret ===
   operator               次數         count   占Invoke
-  CONV_2D                  33    1102524663    69.3%
-  DEPTHWISE_CONV_2D        16     448470687    28.2%
-  ADD                       9      25117928     1.5%
-  FULLY_CONNECTED           1      11581083     0.7%
-  AVERAGE_POOL_2D           1       1160393     0.0%
+  CONV_2D                  33    1102469124    69.3%
+  DEPTHWISE_CONV_2D        16     448408712    28.2%
+  ADD                       9      25140928     1.5%
+  FULLY_CONNECTED           1      11581091     0.7%
+  AVERAGE_POOL_2D           1       1160906     0.0%
   QUANTIZE                  2        909599     0.0%
-  SOFTMAX                   1        383749     0.0%
+  SOFTMAX                   1        383585     0.0%
   RESHAPE                   1          1041     0.0%
 
 === 每層（執行順序），單位 instret ===
    idx  operator                       count   占Invoke
      0  QUANTIZE                     903387     0.0%
-     1  CONV_2D                   521054588    32.7%
-     2  DEPTHWISE_CONV_2D          46691666     2.9%
-     3  CONV_2D                    20593578     1.2%
-     4  CONV_2D                   107652953     6.7%
-     5  DEPTHWISE_CONV_2D          34625300     2.1%
-     6  CONV_2D                    11288861     0.7%
-     7  CONV_2D                    43034502     2.7%
-     8  DEPTHWISE_CONV_2D          53614291     3.3%
-     9  CONV_2D                    14010534     0.8%
-    10  ADD                         8996985     0.5%
-    11  CONV_2D                    43040112     2.7%
-    12  DEPTHWISE_CONV_2D          26549127     1.6%
-    13  CONV_2D                     5834730     0.3%
-    14  CONV_2D                    20222788     1.2%
-    15  DEPTHWISE_CONV_2D          50561959     3.1%
-    16  CONV_2D                     8107697     0.5%
-    17  ADD                         3743225     0.2%
-    18  CONV_2D                    20220802     1.2%
-    19  DEPTHWISE_CONV_2D           5939355     0.3%
-    20  CONV_2D                     4106653     0.2%
-    21  CONV_2D                    13130949     0.8%
-    22  DEPTHWISE_CONV_2D          13180210     0.8%
-    23  CONV_2D                     7006018     0.4%
-    24  ADD                         1875299     0.1%
-    25  CONV_2D                    13130996     0.8%
-    26  DEPTHWISE_CONV_2D          13180299     0.8%
-    27  CONV_2D                     7006489     0.4%
-    28  ADD                         1876077     0.1%
-    29  CONV_2D                    13131464     0.8%
-    30  DEPTHWISE_CONV_2D          30661603     1.9%
-    31  CONV_2D                     9804635     0.6%
-    32  CONV_2D                    21670295     1.3%
-    33  DEPTHWISE_CONV_2D          42925124     2.6%
-    34  CONV_2D                    13052591     0.8%
-    35  ADD                         2624479     0.1%
-    36  CONV_2D                    21670327     1.3%
-    37  DEPTHWISE_CONV_2D          42924457     2.6%
-    38  CONV_2D                    13052002     0.8%
-    39  ADD                         2623935     0.1%
-    40  CONV_2D                    21670534     1.3%
-    41  DEPTHWISE_CONV_2D          10818948     0.6%
-    42  CONV_2D                     5981199     0.3%
-    43  CONV_2D                    13814783     0.8%
-    44  DEPTHWISE_CONV_2D          22508178     1.4%
-    45  CONV_2D                     9736630     0.6%
-    46  ADD                         1125870     0.0%
-    47  CONV_2D                    13814773     0.8%
-    48  DEPTHWISE_CONV_2D          22508332     1.4%
-    49  CONV_2D                     9736928     0.6%
-    50  ADD                         1126088     0.0%
-    51  CONV_2D                    13814790     0.8%
-    52  DEPTHWISE_CONV_2D          22508268     1.4%
-    53  CONV_2D                     9736824     0.6%
-    54  ADD                         1125970     0.0%
-    55  CONV_2D                    13814864     0.8%
-    56  DEPTHWISE_CONV_2D           9273570     0.5%
-    57  CONV_2D                    16225863     1.0%
-    58  CONV_2D                    22353911     1.4%
-    59  AVERAGE_POOL_2D             1160393     0.0%
+     1  CONV_2D                   521019888    32.7%
+     2  DEPTHWISE_CONV_2D          46632858     2.9%
+     3  CONV_2D                    20597761     1.2%
+     4  CONV_2D                   107623275     6.7%
+     5  DEPTHWISE_CONV_2D          34620757     2.1%
+     6  CONV_2D                    11293169     0.7%
+     7  CONV_2D                    43030063     2.7%
+     8  DEPTHWISE_CONV_2D          53612062     3.3%
+     9  CONV_2D                    14008862     0.8%
+    10  ADD                         9006720     0.5%
+    11  CONV_2D                    43038365     2.7%
+    12  DEPTHWISE_CONV_2D          26548183     1.6%
+    13  CONV_2D                     5836936     0.3%
+    14  CONV_2D                    20221249     1.2%
+    15  DEPTHWISE_CONV_2D          50561160     3.1%
+    16  CONV_2D                     8109032     0.5%
+    17  ADD                         3749553     0.2%
+    18  CONV_2D                    20221427     1.2%
+    19  DEPTHWISE_CONV_2D           5939419     0.3%
+    20  CONV_2D                     4107343     0.2%
+    21  CONV_2D                    13131002     0.8%
+    22  DEPTHWISE_CONV_2D          13180345     0.8%
+    23  CONV_2D                     7006130     0.4%
+    24  ADD                         1876607     0.1%
+    25  CONV_2D                    13131017     0.8%
+    26  DEPTHWISE_CONV_2D          13180304     0.8%
+    27  CONV_2D                     7006391     0.4%
+    28  ADD                         1876737     0.1%
+    29  CONV_2D                    13131629     0.8%
+    30  DEPTHWISE_CONV_2D          30663747     1.9%
+    31  CONV_2D                     9805568     0.6%
+    32  CONV_2D                    21670554     1.3%
+    33  DEPTHWISE_CONV_2D          42925185     2.6%
+    34  CONV_2D                    13052802     0.8%
+    35  ADD                         2626003     0.1%
+    36  CONV_2D                    21670555     1.3%
+    37  DEPTHWISE_CONV_2D          42924904     2.6%
+    38  CONV_2D                    13052668     0.8%
+    39  ADD                         2625856     0.1%
+    40  CONV_2D                    21670667     1.3%
+    41  DEPTHWISE_CONV_2D          10820231     0.6%
+    42  CONV_2D                     5981425     0.3%
+    43  CONV_2D                    13814989     0.8%
+    44  DEPTHWISE_CONV_2D          22508367     1.4%
+    45  CONV_2D                     9737000     0.6%
+    46  ADD                         1126421     0.0%
+    47  CONV_2D                    13814952     0.8%
+    48  DEPTHWISE_CONV_2D          22508427     1.4%
+    49  CONV_2D                     9736871     0.6%
+    50  ADD                         1126362     0.0%
+    51  CONV_2D                    13814943     0.8%
+    52  DEPTHWISE_CONV_2D          22508340     1.4%
+    53  CONV_2D                     9737112     0.6%
+    54  ADD                         1126669     0.0%
+    55  CONV_2D                    13814968     0.8%
+    56  DEPTHWISE_CONV_2D           9274423     0.5%
+    57  CONV_2D                    16226361     1.0%
+    58  CONV_2D                    22354150     1.4%
+    59  AVERAGE_POOL_2D             1160906     0.0%
     60  RESHAPE                        1041     0.0%
-    61  FULLY_CONNECTED            11581083     0.7%
-    62  SOFTMAX                      383749     0.0%
+    61  FULLY_CONNECTED            11581091     0.7%
+    62  SOFTMAX                      383585     0.0%
     63  QUANTIZE                       6212     0.0%
 
 BITEXACT  1000 個輸出全部位元一致
@@ -109,9 +109,9 @@ BITEXACT  1000 個輸出全部位元一致
 /users/student/mr114/ccchuang26/ca-project/repo/tflm/bare/build/X1/nn_bare  :
 section                size         addr
 .text                117458   2147483648
-.rodata             5608364   2147601120
-.init_array               8   2153209488
-.data                     8   2153209504
+.rodata             5608396   2147601120
+.init_array               8   2153209520
+.data                     8   2153209536
 .tohost                  16   2153209856
 .bss                2179104   2153209872
 .riscv.attributes        63            0
@@ -124,6 +124,6 @@ section                size         addr
 .debug_str             1551            0
 .debug_line_str        1215            0
 .debug_frame           1448            0
-Total               7984889
+Total               7984921
 
 
