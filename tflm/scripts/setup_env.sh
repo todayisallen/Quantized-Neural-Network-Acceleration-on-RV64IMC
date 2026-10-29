@@ -33,6 +33,7 @@
 #   WORK=...            外部原始碼放哪（預設 $HOME/ca-project/work）
 #   RISCV_PREFIX=...    Spike 裝到哪（預設 $HOME/ca-project/riscv）
 #   RISCV_MEDANY=...    toolchain 裝到哪（預設 $HOME/ca-project/riscv-medany）
+#   TFLM_ROOT=...       TFLM 在哪（預設 $WORK/tflite-micro，會自動 export）
 #   JOBS=8              平行編譯數
 
 set -uo pipefail
@@ -46,6 +47,20 @@ RISCV_PREFIX="${RISCV_PREFIX:-$HOME/ca-project/riscv}"
 RISCV_MEDANY="${RISCV_MEDANY:-$HOME/ca-project/riscv-medany}"
 JOBS="${JOBS:-8}"
 MODEL="${MODEL:-$REPO/model/eff-lite0/model.tflite}"
+
+# TFLM_ROOT 由 WORK 推導，並且 **export** ——
+#
+# bare/Makefile 與 host/Makefile 的預設是 $(HOME)/ca-project/work/tflite-micro，
+# 剛好等於 WORK 的預設值，所以預設情況沒事。但 WORK 被覆寫時（例如把
+# 這個腳本指到 /tmp 做乾淨還原測試），本腳本底下那幾個 make 呼叫若不帶
+# TFLM_ROOT，就會去用開發機上**原本那套** TFLM。
+#
+# 那比直接失敗更糟：驗證會通過，然後什麼都沒證明到 —— 它根本沒碰到
+# 這次 clone 出來的東西。
+#
+# export 之後所有 make 子行程都會繼承，不必每個呼叫點各自記得傳。
+TFLM_ROOT="${TFLM_ROOT:-$WORK/tflite-micro}"
+export TFLM_ROOT
 
 # 釘住的版本。換版本的話捨入模式可能變（見 README 的「捨入模式」一節），
 # `xqrq` 就要跟著改 —— 所以這兩個 commit 是重現條件，不是建議。
@@ -170,14 +185,15 @@ EOF
     esac
   fi
 
-  # WORK 被覆寫時，bare/host 的 TFLM_ROOT 預設值就不對了 —— 它寫死
-  # $(HOME)/ca-project/work/tflite-micro，跟 WORK 的預設值一致，所以
-  # 預設情況沒事，覆寫了才斷。非致命，但一定要講，因為症狀是
-  # 「找不到 libmicrolite」，看不出跟 WORK 有關。
+  # WORK 被覆寫時一定要講清楚 TFLM_ROOT 指向哪 —— 本腳本已經 export 了，
+  # 但使用者**自己**後續跑 make / measure.sh 時不會繼承到，而症狀是
+  # 「找不到 libmicrolite」或更糟的「用了另一套 TFLM 卻通過」。
   if [ "$WORK" != "$HOME/ca-project/work" ]; then
-    printf "   \033[33m注意\033[0m %-26s\n" "WORK 被覆寫成 $WORK"
-    printf "        bare/ 與 host/ 的 TFLM_ROOT 預設是 \$HOME/ca-project/work/tflite-micro，\n"
-    printf "        所以 make 時要一起帶：TFLM_ROOT=%s/tflite-micro\n" "$WORK"
+    printf "   \033[33m注意\033[0m %-26s\n" "WORK = $WORK（非預設）"
+    printf "        本腳本已 export TFLM_ROOT=%s\n" "$TFLM_ROOT"
+    printf "        但你**自己**後續跑 make 或 measure.sh 時要一起帶，否則會\n"
+    printf "        回頭用 \$HOME/ca-project/work/tflite-micro：\n"
+    printf "          export TFLM_ROOT=%s\n" "$TFLM_ROOT"
   fi
 
   printf "\n"
