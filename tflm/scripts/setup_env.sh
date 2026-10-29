@@ -106,6 +106,9 @@ stage_check() {
   _have make   "建置"     "系統套件管理員" || hard=1
   _have g++    "host 編譯器（需支援 C++17）" "系統套件管理員" || hard=1
   _have python3 "產生 gen/ 需要" "系統套件管理員" || hard=1
+  # dtc 是 riscv-isa-sim 的建置依賴（它要編 device tree）。開發機剛好有，
+  # 所以一直沒浮出來 —— 乾淨環境缺了它會在 spike 階段的 configure 爆。
+  _have dtc    "Spike 建置需要（device-tree-compiler）" "系統套件管理員" || hard=1
 
   # host 編譯器要真的支援 C++17（CentOS 7 內建的 4.8.5 不夠）
   if command -v g++ >/dev/null 2>&1; then

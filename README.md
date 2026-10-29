@@ -56,192 +56,83 @@ for C in B1 X1 X2; do make -C bare CONFIG=$C bench_run; done
 
 ## 前置需求
 
-腳本會檢查這些，缺了會明確告訴你缺什麼。
-
-| | 需求 | 本專案實測於 |
-|---|---|---|
-| 平台 | **Linux x86_64 或 macOS** | CentOS Linux 7.9.2009 |
-| host C++ | 支援 **C++17** | g++ 7.3.0 |
-| riscv toolchain | `riscv64-unknown-elf-*` | **標準版即可**，見下面「取得 RISC-V toolchain」 |
-| Spike | riscv-isa-sim `f11c7b6` | **必須套 `patches/spike-xq.patch`** |
-| TFLM | tflite-micro `64b3de8` | **必須套 `tflm-patch/`** |
-| Python | ai-edge-litert 1.4.0、numpy 2.2.6、pillow 12.2.0 | |
-| 模型 | `model/eff-lite0/model.tflite` | sha256 `bc2ffe19c1118de0c0c2a9088992da5589722656e0fba81421385300a4a34b16` |
-
-兩個 commit 是**重現條件，不是建議**：`MultiplyByQuantizedMultiplier`
-的捨入模式會隨 TFLM 版本變，而 `xqrq` 的實作必須與它位元相同（見下面
-「捨入模式」）。
-
-先盤點缺什麼（秒級，不裝任何東西）：
-
 ```bash
 bash scripts/setup_env.sh check
 ```
 
-它會逐項列出有沒有、缺的該去哪拿，並且在 `all` 的最前面自動跑一次 ——
-RISC-V toolchain 這個依賴腳本不負責安裝，而缺了它要到第三階段才會發現，
-那時 Spike 已經建了十幾分鐘。
+秒級，不裝任何東西 —— 逐項列出有沒有、缺的怎麼裝。`all` 會在最前面自動跑一次。
 
-路徑可以覆寫：
+| 需求 | 版本 | `setup_env.sh` 會裝嗎 |
+|---|---|---|
+| 平台 | Linux x86_64 或 macOS | — |
+| `git` / `make` / `g++`（C++17）/ `python3` / `dtc` | | ❌ **自己裝** |
+| RISC-V toolchain | `riscv64-unknown-elf-*`，**標準版即可** | ❌ **自己裝** |
+| Spike | riscv-isa-sim `f11c7b6` + `patches/spike-xq.patch` | ✅ |
+| TFLM | tflite-micro `64b3de8` + `tflm-patch/` | ✅ |
+| Python 套件 | ai-edge-litert 1.4.0 / numpy 2.2.6 / pillow 12.2.0 | ✅ `pip --user` |
+| 模型 | `model/eff-lite0/model.tflite` | ✅ 已在倉庫內 |
+
+`setup_env.sh` 全程**不需要 root**，東西都裝在你指定的路徑下。
+要自己裝的那兩列多半需要 root，所以才不代勞。
+
+### 安裝那兩列
+
+**基本工具**
+
+```bash
+# Debian / Ubuntu
+sudo apt update && sudo apt install -y \
+     git make g++ python3-pip device-tree-compiler autoconf automake libtool
+
+# Fedora / RHEL 9+
+sudo dnf install -y git make gcc-c++ python3-pip dtc autoconf automake libtool
+
+# macOS
+brew install dtc autoconf automake libtool
+```
+
+**RISC-V toolchain** —— 要的是 **bare-metal 的 `riscv64-unknown-elf` 三元組**。
+
+```bash
+# Debian / Ubuntu
+sudo apt install -y gcc-riscv64-unknown-elf binutils-riscv64-unknown-elf
+```
+
+其他平台（含 Fedora / RHEL / macOS）下載預編 release，解壓後把 `bin/` 加進
+`PATH`，這條到哪都通：
+
+<https://github.com/riscv-collab/riscv-gnu-toolchain/releases>
+
+> **不要用 `riscv64-linux-gnu`。** Fedora 主倉庫只有
+> `gcc-riscv64-linux-gnu`，那是給 Linux 使用者空間的三元組，不是
+> bare-metal 的 `-unknown-elf`；`bare/Makefile` 找的是後者。
+
+裝完重跑 `bash scripts/setup_env.sh check`，全綠就可以 `all`。
+套件名稱因版本而異，`check` 會直接告訴你還缺哪個。
+
+### 三件要知道的事
+
+1. **不需要特製 toolchain。** 標準版的預設 code model 是 `medlow`，連結不到
+   `0x80000000`；倉庫附了一份 medany 建的 libgcc，`bare/Makefile` 偵測到
+   `medlow` 就**自動**用它，不必設任何變數。省掉數小時的 toolchain 建置。
+
+2. **兩個 commit 是重現條件，不是建議。**
+   `MultiplyByQuantizedMultiplier` 的捨入模式會隨 TFLM 版本變，而 `xqrq`
+   必須與它位元相同。詳見下面「捨入模式」。
+
+3. **改了編譯器或 libgcc 要先 `rm -rf bare/build`。** `make` 只比時間戳，
+   沿用舊物件檔不會有任何警告，但連結出來的東西不對應你記錄的設定。
+
+路徑可以覆寫（`TFLM_ROOT` 會自動跟著 `WORK`）：
 
 ```bash
 WORK=/path/to/src RISCV_PREFIX=/path/to/install bash scripts/setup_env.sh all
 ```
 
-### 取得 RISC-V toolchain
-
-這是唯一一個 `setup_env.sh` **不代勞**的依賴 —— 它的安裝方式因發行版而異，
-而且多半需要 root。
-
-```bash
-# Debian / Ubuntu
-sudo apt install gcc-riscv64-unknown-elf binutils-riscv64-unknown-elf
-
-# macOS
-brew tap riscv-software-src/riscv && brew install riscv-tools
-```
-
-或下載預編的 release（解壓後把 `bin/` 加進 `PATH`）：
-<https://github.com/riscv-collab/riscv-gnu-toolchain/releases>
-
-**標準版就夠**，不需要 `--with-cmodel=medany` 的特製版本 —— 理由見下一節。
-以上都是分鐘級；自建要數小時。
-
-`bare/Makefile` 的編譯器解析順序（第一個命中就用，`make -C bare paths`
-會印出命中哪一條）：
-
-| | 條件 | 用 |
-|---|---|---|
-| 1 | 有給 `RISCV_MEDANY=` | `$(RISCV_MEDANY)/bin/riscv64-unknown-elf-*` |
-| 2 | `~/ca-project/riscv-medany` 存在 | 它（本專案開發機） |
-| 3 | PATH 上有 `riscv64-unknown-elf-g++` | PATH |
-| 4 | 都沒有 | 報錯並指回本節 |
-
-所以**裝在 `/usr/bin` 就能直接用**，不必設任何變數。
-
-> 只在 GCC 16.1.0 上驗證過。跨版本沒測，但 `rv64imc` + `lp64` 是
-> 2019 年就凍結的基礎 ISA 與 ABI，不預期有相容問題。
-
-缺了 toolchain 仍然可以驗證 **kernel 等價性**（`tests/kernel/run.sh`）與
-**x86 上的完整模型**，但 bare-metal 的所有效能數字都量不到 —— 本專案的
-量測全部來自 Spike 上的 RISC-V 執行檔。
-
-### 不限 CentOS
-
-專案本身不依賴任何發行版。CentOS 7 其實是**最難的那個環境**
-（glibc 2.17、系統 g++ 4.8.5 連 C++17 都不支援），換到現代的
-Ubuntu / Debian 會更順。bare-metal 那一側完全不碰 OS —— 它跑在 Spike 裡，
-連 libc 都是自己實作的（`bare/libc_min.cc`）。
-
-唯一的平台限制是 **`ai-edge-litert` 只有 Linux x86_64 與 macOS 的 wheel**，
-所以 `gen` 階段（產生模型的 C 陣列與 LiteRT 的參考輸出）需要這兩種平台之一。
-
-編譯器不是 PATH 上的 `g++` 時從命令列指定：
-
-```bash
-make -C host CXX=/usr/local/bin/g++ paths
-```
-
-`make -C host paths` 會**實際編一個 C++17 的小程式**來檢查，不是只看版本字串。
-
----
-
-## 關於 medany：為什麼只需要一個 5.8 MB 的檔
-
-載入位址是 `0x80000000`（Spike 的預設 DRAM_BASE）。標準
-`riscv64-unknown-elf` 附的 **libgcc 是 medlow code model 建的**，絕對定址
-只到 `0x7fffffff`，連結會得到一堆
-
-```
-relocation truncated to fit: R_RISCV_HI20
-```
-
-`libm` 可以靠自己實作繞過（`bare/libc_min.cc`），但 **libgcc 繞不開** ——
-rv64imc 沒有 FPU，而 `QuantizeMultiplier` 的 `double` 除法一定要 `__divdf3`。
-
-**但缺的只有 libgcc 這一個檔。** `-mcmodel=medany` 本身是編譯器旗標，
-標準 toolchain 就支援，而且兩邊都明確帶了它：
-
-- 我們的 `bare/Makefile`：`-mcmodel=medany`
-- TFLM 的 riscv64 target（`tflm-patch/riscv64_generic_makefile.inc`）：
-  `PLATFORM_FLAGS` 含 `-mcmodel=$(RISCV_CODE_MODEL)`，而 `RISCV_CODE_MODEL := medany`
-
-所以本專案附了一份 medany 建的 libgcc：
-
-```
-prebuilt/libgcc-medany-rv64imc-lp64.a      5.8 MB
-```
-
-**不必做任何事就會用到它。** `bare/Makefile` 會探測
-`$(CXX)` 的**預設 code model**，發現是 `medlow` 就自動改用 `prebuilt/`：
-
-```
-$ make -C bare paths | grep -A1 LIBGCC
-LIBGCC     = /path/to/repo/tflm/prebuilt/libgcc-medany-rv64imc-lp64.a
-             (預設 code model 是 medlow，自動改用 prebuilt/)
-```
-
-這是刻意做的：`measure.sh`、`instr_mix.sh`、`verify_image.sh` 都是直接
-呼叫 `make`，不帶這個變數。靠「記得 `export LIBGCC`」是個會被忘記的步驟，
-而忘記的症狀是一串看不懂的重定位錯誤。
-
-探測的四種結果：
-
-| `$(CXX)` 預設 | `prebuilt/` | 結果 |
-|---|---|---|
-| `medany` | — | `-lgcc`（用 toolchain 自己的） |
-| `medlow` | 有 | 自動換成 `prebuilt/` |
-| `medlow` | 無 | `-lgcc`，連結前就擋下來並印出兩個補救方式 |
-| 探測不出來 | — | 同上，不猜 |
-
-要覆寫就明確給（給了之後探測完全不介入）：
-
-```bash
-make -C bare CONFIG=X2 LIBGCC=/path/to/your/libgcc.a run
-```
-
-> **要嘛全程給、要嘛全程不給。** `bare/build/<CONFIG>/` 下的物件檔會留存，
-> 而 `make` 只比對時間戳 —— 換了編譯器或 libgcc 卻沿用舊的物件檔，連結
-> 出來的執行檔不對應你記錄的建置設定，而且**沒有任何警告**。
-> 中途改設定的話先 `rm -rf bare/build`。
-
-**這省掉幾小時的 toolchain 建置。**
-
-### 已驗證的範圍
-
-這條捷徑實測過：用**預設 code model 為 medlow** 的標準 toolchain
-（GCC 16.1.0）編譯、連結本專案附的 medany libgcc，得到
-
-```
-X2  Invoke 1,271,170,850   BITEXACT
-```
-
-與 medany toolchain 編出來的結果**指令數一條不差**（兩邊都明確帶
-`-mcmodel=medany`，所以產生的碼實質相同）。
-
-**未驗證的是跨 GCC 版本。** 附的 libgcc 是 GCC 16.1.0 建的；配其他主版本的
-編譯器理論上可行（我們用到的只有 `__divdf3` / `__muldf3` / `__adddf3` /
-`__clz_tab` 這類由 RISC-V calling convention 定義的常式），但沒有測過。
-連結出現符號或 ABI 問題時，走下面的備案。
-
-### 備案：自建 medany toolchain
-
-```bash
-bash scripts/setup_env.sh toolchain       # 數小時
-```
-
-它用的參數與本專案完全相同：
-
-```bash
-./configure --prefix=$RISCV_MEDANY \
-            --with-arch=rv64imc --with-abi=lp64 \
-            --with-cmodel=medany --disable-gdb
-```
-
-建好之後 `export RISCV_MEDANY=...`，不要再設 `LIBGCC`。
-
-`bare/Makefile` 的 `check-cmodel` 會在**連結之前**確認這件事 —— 用錯的話
-會一路編譯成功、到最後連結才爆出一堆看不出原因的 relocation 錯誤。
+> **環境的完整細節**（為什麼只缺 libgcc、編譯器解析順序、已驗證與未驗證的
+> 範圍、自建 medany toolchain 的備案）在
+> [`tflm/docs/environment.md`](tflm/docs/environment.md)。
+> 照上面做就能跑起來，不必先讀那份。
 
 ---
 
@@ -574,7 +465,7 @@ tflm/
   patches/          Spike 的改動（patch + insn 原始碼）
   prebuilt/         medany 建的 libgcc.a（省掉自建 toolchain）
   tflm-patch/       對 TFLM 的兩個改動（debug_log + riscv64 target）
-  docs/             報告與設計文件
+  docs/             報告與設計文件（environment.md = 環境細節）
   results/          量測結果（本 README 預期數字的來源）
   gen/              由工具產生，不入版本控制（見 .gitignore）
 ```
