@@ -129,11 +129,6 @@ sudo apt install -y gcc-riscv64-unknown-elf binutils-riscv64-unknown-elf
 WORK=/path/to/src RISCV_PREFIX=/path/to/install bash scripts/setup_env.sh all
 ```
 
-> **環境的完整細節**（為什麼只缺 libgcc、編譯器解析順序、已驗證與未驗證的
-> 範圍、自建 medany toolchain 的備案）在
-> [`tflm/docs/environment.md`](tflm/docs/environment.md)。
-> 照上面做就能跑起來，不必先讀那份。
-
 ---
 
 ## 沒套 Spike patch 的失敗症狀（重要）
@@ -292,12 +287,12 @@ spike --isa=rv64imc_zicsr -m64 /tmp/t_xqmac8 </dev/null    # pass=10024 fail=0
 
 | config | Invoke | 相對 B0 | inst/MAC | AllocateTensors | 框架 overhead | `.text` | 判定 |
 |:--|---:|---:|---:|---:|---:|---:|:--|
-| B0 | 19,575,565,013 | 1.000x | 50.82 | 15,057,926 | 4,473 | 121,782 | BITEXACT |
-| B1C | 5,281,442,410 | 3.706x | 13.71 | 15,057,926 | 4,473 | 117,462 | BITEXACT |
-| B1D | 17,976,434,615 | 1.089x | 46.67 | 15,057,926 | 4,473 | 121,582 | BITEXACT |
-| B1 | 3,682,312,012 | 5.316x | 9.56 | 15,057,926 | 4,473 | 117,262 | BITEXACT |
-| X1 | 1,590,153,616 | 12.310x | 4.13 | 15,057,926 | 4,473 | 117,458 | BITEXACT |
-| X2 | 1,271,170,850 | 15.400x | 3.30 | 15,057,926 | 4,473 | 116,878 | BITEXACT |
+| B0 | 19,575,565,013 | 1.000x | 50.82 | 15,058,298 | 4,473 | 121,760 | BITEXACT |
+| B1C | 5,281,442,410 | 3.706x | 13.71 | 15,058,298 | 4,473 | 117,440 | BITEXACT |
+| B1D | 17,976,434,615 | 1.089x | 46.67 | 15,058,298 | 4,473 | 121,560 | BITEXACT |
+| B1 | 3,682,312,012 | 5.316x | 9.56 | 15,058,298 | 4,473 | 117,240 | BITEXACT |
+| X1 | 1,590,153,616 | 12.310x | 4.13 | 15,058,298 | 4,473 | 117,436 | BITEXACT |
+| X2 | 1,271,170,850 | 15.400x | 3.30 | 15,058,298 | 4,473 | 116,856 | BITEXACT |
 
 - **B1C / B1D** 把 B1 的兩項改動拆開（只開 1×1 / 只開 depthwise），用於歸因。
   加速比不可相乘（3.706 × 1.089 ≠ 5.316），但**節省量可以相加**，
@@ -305,6 +300,11 @@ spike --isa=rv64imc_zicsr -m64 /tmp/t_xqmac8 </dev/null    # pass=10024 fail=0
   `14,294,122,603 + 1,599,130,398 = 15,893,253,001`，與 B1 實際的節省量**差 0**。
 - **`AllocateTensors` 與框架 overhead 在六個配置中完全相同** ——
   B1/X1/X2 都沒有改動 Prepare，本來就該一樣。這是個健全性檢查。
+- **`Invoke` 裡沒有任何浮點運算。** rv64imc 沒有 FPU，而
+  `QuantizeMultiplier` 用 `double`，所以有軟體模擬：`__muldf3` 4,385,796 +
+  `__divdf3` 2,118,476 = 6,504,272 條（全程的 0.50%）。**全部落在
+  `AllocateTensors`**（占它的 43%），`Invoke` 內為 0 —— 乘數在 Prepare
+  階段就算成整數 `multiplier`/`shift` 存起來了。
 - **`.text` 不含模型**（模型在 `.rodata`，約 5.3 MB）。
   X2 的 `.text` 比 X1 小 580 bytes、比 B0 小 4,904 bytes（−4.0%）——
   兩條自訂指令讓程式碼**變小**，因為 requantize 的呼叫點從
@@ -314,16 +314,16 @@ spike --isa=rv64imc_zicsr -m64 /tmp/t_xqmac8 </dev/null    # pass=10024 fail=0
 
 | 類別 | 指令數 | 占比 |
 |---|---:|---:|
-| load | 283,542,301 | 21.60% |
-| store | 27,207,129 | 2.07% |
-| mul/div | 78,225,269 | 5.96% |
-| alu | 518,118,575 | 39.47% |
-| branch | 352,123,669 | 26.82% |
-| jump | 4,870,493 | 0.37% |
+| load | 283,551,893 | 21.60% |
+| store | 27,207,345 | 2.07% |
+| mul/div | 78,225,289 | 5.96% |
+| alu | 518,188,400 | 39.47% |
+| branch | 352,213,721 | 26.83% |
+| jump | 4,870,788 | 0.37% |
 | **custom** | **48,653,472** | **3.71%** |
-| 合計 | 1,312,765,133 | |
+| 合計 | 1,312,935,133 | |
 
-壓縮指令（RVC）482,226,856（36.73%）、`instruction / MAC` 3.41、
+壓縮指令（RVC）482,327,552（36.74%）、`instruction / MAC` 3.41、
 `load+store / MAC` 0.81（histogram 涵蓋整個程式含 `AllocateTensors`，
 所以比 Invoke 的 3.30 略高）。
 
@@ -436,7 +436,7 @@ B0 / B1 / X1 / X2 在 RV64/Spike 上全部 BITEXACT
 | 3. Spike / custom ISA 實作 | `tflm/patches/spike-xq.patch`、`tflm/patches/spike/insns/` |
 | 4. Verification tests（測自訂指令） | `tflm/bare/t_xqmac8.c`、`tflm/bare/t_xqrq.cc` |
 | 5. Reproducible benchmark scripts | `tflm/scripts/*.sh`、`make -C bare bench_run` |
-| 6. Slides | `docs/slides/` |
+| 6. Slides | 另附 |
 | 7. README + 預期數字 | 本檔 |
 
 ---
@@ -465,7 +465,6 @@ tflm/
   patches/          Spike 的改動（patch + insn 原始碼）
   prebuilt/         medany 建的 libgcc.a（省掉自建 toolchain）
   tflm-patch/       對 TFLM 的兩個改動（debug_log + riscv64 target）
-  docs/             報告與設計文件（environment.md = 環境細節）
   results/          量測結果（本 README 預期數字的來源）
   gen/              由工具產生，不入版本控制（見 .gitignore）
 ```
@@ -478,7 +477,8 @@ tflm/
   pipeline 模型，所以 load-use 停頓與記憶體頻寬量不到 —— 那些屬於期末的
   CV-Wally RTL 階段。
 - **stem 的 3×3 convolution 沒有優化。** 它是 X2 的最大單一項目
-  （40.9% 的指令、2.81% 的 MAC），因為 `conv_xq` 對非 1×1 一律退回參考
+  （521,054,588 條 = 40.9% 的指令，卻只有 2.81% 的 MAC），因為
+  `conv_xq` 對非 1×1 一律退回參考
   實作。這是軟體問題不是 ISA 問題：結構上它其實可以用 `xqmac8`。
 - **depthwise 的邊界慢路徑沒有優化。** 後段層的邊界像素占到 49%~82%，
   而每個邊界像素比快路徑貴 8 倍。

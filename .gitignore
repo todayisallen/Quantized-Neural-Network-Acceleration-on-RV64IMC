@@ -69,3 +69,11 @@ __pycache__/
 #
 # 檔案約 5 MB，遠低於 GitHub 的單檔 100 MB 上限。
 # （若之後真的加了轉換腳本，再考慮改回排除。）
+# NFS silly-rename 殘留（rm 了還開著的檔）
+.nfs*
+
+# NFS silly-rename 殘留（rm 了還開著的檔）
+.nfs*
+
+# NFS silly-rename 殘留（rm 了還開著的檔）
+.nfs*

@@ -1,9 +1,9 @@
-/users/student/mr114/ccchuang26/ca-project/repo/tflm/bare/build/B1C/nn_bare  :
+/tmp/restoretest/tflm/bare/build/B1C/nn_bare  :
 section                size         addr
-.text                117462   2147483648
-.rodata             5608364   2147601120
-.init_array               8   2153209488
-.data                     8   2153209504
+.text                117440   2147483648
+.rodata             5608356   2147601088
+.init_array               8   2153209448
+.data                     8   2153209456
 .tohost                  16   2153209856
 .bss                1763360   2153209872
 .riscv.attributes        63            0
@@ -16,6 +16,6 @@ section                size         addr
 .debug_str             1551            0
 .debug_line_str        1215            0
 .debug_frame           1448            0
-Total               7569149
+Total               7569119
 
 

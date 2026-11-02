@@ -1,5 +1,5 @@
 # configuration: X2
-# 日期: 2026-10-23 15:10:03
+# 日期: 2026-11-02 18:36:52
 # arena: 1713 KiB
 # spike: --isa=rv64imc_zicsr -m64
 # 離開碼: 0
@@ -19,11 +19,11 @@ top-5 同序 5/5，同集合 5/5
 top-1 相同
 
 === 分段計數，單位 instret ===
-  AllocateTensors(含Prepare)       15057926
+  AllocateTensors(含Prepare)       15058298
   Invoke                         1271170850
     其中 kernel 合計             1271166377  (99.9%)
     框架 overhead                      4473  (0.0%)
-  合計                           1286228776
+  合計                           1286229148
 
 === 依 operator 彙總，單位 instret ===
   operator               次數         count   占Invoke
@@ -106,12 +106,12 @@ top-1 相同
 BITEXACT  1000 個輸出全部位元一致
 
 # --- section 大小 ---
-/users/student/mr114/ccchuang26/ca-project/repo/tflm/bare/build/X2/nn_bare  :
+/tmp/restoretest/tflm/bare/build/X2/nn_bare  :
 section                size         addr
-.text                116878   2147483648
-.rodata             5608364   2147600528
-.init_array               8   2153208896
-.data                     8   2153208912
+.text                116856   2147483648
+.rodata             5608356   2147600512
+.init_array               8   2153208872
+.data                     8   2153208880
 .tohost                  16   2153209856
 .bss                2203680   2153209872
 .riscv.attributes        63            0
@@ -124,6 +124,6 @@ section                size         addr
 .debug_str             1551            0
 .debug_line_str        1215            0
 .debug_frame           1448            0
-Total               8008885
+Total               8008855
 
 
